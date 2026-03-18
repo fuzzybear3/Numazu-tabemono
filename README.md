@@ -1,109 +1,104 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# Numazu Tabemono
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+A restaurant leaderboard and map for Numazu, Japan. Two admins add restaurants and manage rankings via a protected `/admin` area. The public gets a read-only leaderboard and interactive map.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+**Live site:** https://numazu.stevenguido.com
+
+---
+
+## Stack
+
+- **Next.js 16** — App Router, TypeScript, Tailwind CSS
+- **Supabase** — Postgres database, Auth, Storage
+- **shadcn/ui** — UI components
+- **Leaflet + OpenStreetMap** — Free map, no API key needed
+- **Nominatim** — Free restaurant search (OpenStreetMap geocoding)
+- **@dnd-kit** — Drag-to-reorder rankings
+- **Vercel** — Hosting
 
 ## Features
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Proxy
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+- Public leaderboard ranked by admin-defined order
+- Interactive map with numbered pins for each restaurant
+- Restaurant detail pages with visit photo gallery
+- Admin dashboard: add restaurants, log visits, drag-to-reorder rankings
+- GPS-based restaurant entry for places not yet in Nominatim
+- "Also add to OpenStreetMap" link when adding via GPS
 
-## Demo
+---
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+## Local development
 
-## Deploy to Vercel
+### 1. Clone the repo
 
-Vercel deployment will guide you through creating a Supabase account and project.
+```bash
+git clone git@github.com:fuzzybear3/Numazu-tabemono.git
+cd Numazu-tabemono
+```
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+### 2. Install dependencies
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+```bash
+npm install
+```
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+### 3. Set up environment variables
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+Copy `.env.example` to `.env.local` and fill in your values:
 
-## Clone and run locally
+```bash
+cp .env.example .env.local
+```
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_...
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-2. Create a Next.js app using the Supabase Starter template npx command
+Get your Supabase keys from: **Supabase dashboard → Project Settings → API**
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+### 4. Run the database migration
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+In the Supabase SQL editor, run the contents of:
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+```
+supabase/migrations/0001_initial_schema.sql
+```
 
-3. Use `cd` to change into the app's directory
+This creates the `restaurants`, `visits`, and `rankings` tables with RLS policies.
 
-   ```bash
-   cd with-supabase-app
-   ```
+### 5. Create the storage bucket
 
-4. Rename `.env.example` to `.env.local` and update the following:
+In Supabase dashboard → Storage → New bucket:
+- Name: `food-photos`
+- Public: yes
 
-  ```env
-  NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=[INSERT SUPABASE PROJECT API PUBLISHABLE OR ANON KEY]
-  ```
-  > [!NOTE]
-  > This example uses `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, which refers to Supabase's new **publishable** key format.
-  > Both legacy **anon** keys and new **publishable** keys can be used with this variable name during the transition period. Supabase's dashboard may show `NEXT_PUBLIC_SUPABASE_ANON_KEY`; its value can be used in this example.
-  > See the [full announcement](https://github.com/orgs/supabase/discussions/29260) for more information.
+Then add policies (or run the commented SQL at the bottom of the migration file).
 
-  Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+### 6. Start the dev server
 
-5. You can now run the Next.js local development server:
+```bash
+npm run dev
+```
 
-   ```bash
-   npm run dev
-   ```
+Open [http://localhost:3000](http://localhost:3000).
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+---
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+## Admin access
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+Admin accounts are created manually in the Supabase dashboard:
 
-## Feedback and issues
+**Authentication → Users → Add user**
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+Any Supabase user can log in at `/admin/login` and has full admin access.
 
-## More Supabase examples
+---
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+## Deployment
+
+Deployed to Vercel. Any push to `main` triggers an automatic redeploy.
+
+Environment variables are set in the Vercel dashboard under **Project Settings → Environment Variables**.
