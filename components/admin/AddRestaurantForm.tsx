@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { PlacesAutocomplete } from "./PlacesAutocomplete";
 import { createRestaurant } from "@/actions/restaurants";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ function extractName(displayName: string): string {
 }
 
 export function AddRestaurantForm() {
+  const router = useRouter();
   const [place, setPlace] = useState<SelectedPlace | null>(null);
   const [manualName, setManualName] = useState("");
   const [locating, setLocating] = useState(false);
@@ -109,6 +111,7 @@ export function AddRestaurantForm() {
         setSuccess(true);
         setPlace(null);
         setManualName("");
+        router.refresh();
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to add restaurant");
       }
