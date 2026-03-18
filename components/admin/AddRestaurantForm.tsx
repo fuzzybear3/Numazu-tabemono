@@ -23,9 +23,14 @@ function extractName(displayName: string): string {
 
 export function AddRestaurantForm() {
   const [place, setPlace] = useState<SelectedPlace | null>(null);
+  const [manualName, setManualName] = useState("");
+  const [locating, setLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+
+  const isGpsPlace = place?.osm_key.startsWith("gps/");
 
   function handlePlaceSelect(result: NominatimResult) {
     setPlace({
@@ -35,20 +40,64 @@ export function AddRestaurantForm() {
       lat: result.lat,
       lng: result.lon,
     });
+    setManualName("");
     setSuccess(false);
     setError(null);
+    setLocationError(null);
+  }
+
+  function handleUseMyLocation() {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser.");
+      return;
+    }
+    setLocating(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude.toFixed(7);
+        const lng = pos.coords.longitude.toFixed(7);
+        setPlace({
+          osm_key: `gps/${Date.now()}`,
+          name: "",
+          address: `${lat}, ${lng}`,
+          lat,
+          lng,
+        });
+        setManualName("");
+        setLocating(false);
+        setSuccess(false);
+        setError(null);
+      },
+      (err) => {
+        setLocationError(
+          err.code === 1
+            ? "Location access denied. Please allow location in your browser."
+            : "Could not get your location. Try again."
+        );
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!place) {
-      setError("Please select a restaurant from the suggestions.");
+      setError("Please search for a restaurant or use your location.");
+      return;
+    }
+
+    const finalName = isGpsPlace ? manualName.trim() : place.name;
+    if (!finalName) {
+      setError("Please enter the restaurant name.");
       return;
     }
 
     const formData = new FormData(e.currentTarget);
     formData.set("place_id", place.osm_key);
-    formData.set("name", place.name);
+    formData.set("name", finalName);
     formData.set("address", place.address);
     formData.set("lat", place.lat);
     formData.set("lng", place.lng);
@@ -59,18 +108,74 @@ export function AddRestaurantForm() {
         await createRestaurant(formData);
         setSuccess(true);
         setPlace(null);
+        setManualName("");
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to add restaurant");
       }
     });
   }
 
+  const osmEditorUrl =
+    place && isGpsPlace
+      ? `https://www.openstreetmap.org/edit?editor=id#map=19/${place.lat}/${place.lng}`
+      : null;
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <PlacesAutocomplete onSelect={handlePlaceSelect} />
 
+      <div className="flex items-center gap-3">
+        <div className="flex-1 border-t border-border" />
+        <span className="text-xs text-muted-foreground">or</span>
+        <div className="flex-1 border-t border-border" />
+      </div>
+
+      <Button
+        type="button"
+        variant="outline"
+        onClick={handleUseMyLocation}
+        disabled={locating}
+        className="w-full"
+      >
+        {locating ? "Getting location..." : "📍 Use my current location"}
+      </Button>
+
+      {locationError && (
+        <p className="text-sm text-destructive">{locationError}</p>
+      )}
+
+      {/* GPS mode: show coordinates + manual name entry + OSM link */}
+      {place && isGpsPlace && (
+        <div className="rounded-md border border-border bg-muted/40 p-3 space-y-3">
+          <p className="text-xs text-muted-foreground">
+            📍 {place.lat}, {place.lng}
+          </p>
+
+          <div className="grid gap-1.5">
+            <Label htmlFor="manual-name">Restaurant name</Label>
+            <Input
+              id="manual-name"
+              value={manualName}
+              onChange={(e) => setManualName(e.target.value)}
+              placeholder="e.g. Ramen Hyaku-shiki"
+              autoFocus
+            />
+          </div>
+
+          {osmEditorUrl && (
+            <a
+              href={osmEditorUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-blue-500 hover:underline"
+            >
+              Also add to OpenStreetMap ↗
+            </a>
+          )}
+        </div>
+      )}
+
       <input type="hidden" name="place_id" value={place?.osm_key ?? ""} />
-      <input type="hidden" name="name"     value={place?.name ?? ""} />
       <input type="hidden" name="address"  value={place?.address ?? ""} />
       <input type="hidden" name="lat"      value={place?.lat ?? ""} />
       <input type="hidden" name="lng"      value={place?.lng ?? ""} />
