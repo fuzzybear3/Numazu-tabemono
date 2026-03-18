@@ -1,38 +1,41 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { getPlaceDetails } from "@/lib/google-places";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
 const CreateRestaurantSchema = z.object({
-  google_place_id: z.string().min(1),
-  cuisine_type: z.string().optional(),
+  place_id:        z.string().min(1),
+  name:            z.string().min(1),
+  address:         z.string().min(1),
+  lat:             z.coerce.number(),
+  lng:             z.coerce.number(),
+  cuisine_type:    z.string().optional(),
   cover_photo_url: z.string().url().optional(),
 });
 
 export async function createRestaurant(formData: FormData) {
   const parsed = CreateRestaurantSchema.parse({
-    google_place_id: formData.get("google_place_id"),
-    cuisine_type: formData.get("cuisine_type") || undefined,
+    place_id:        formData.get("place_id"),
+    name:            formData.get("name"),
+    address:         formData.get("address"),
+    lat:             formData.get("lat"),
+    lng:             formData.get("lng"),
+    cuisine_type:    formData.get("cuisine_type") || undefined,
     cover_photo_url: formData.get("cover_photo_url") || undefined,
   });
 
   const supabase = await createClient();
 
-  // Fetch authoritative data from Google Places (server-side key)
-  const place = await getPlaceDetails(parsed.google_place_id);
-
-  // Insert restaurant
   const { data: restaurant, error: rError } = await supabase
     .from("restaurants")
     .insert({
-      name: place.name,
-      address: place.address,
-      lat: place.lat,
-      lng: place.lng,
-      google_place_id: place.place_id,
-      cuisine_type: parsed.cuisine_type ?? null,
+      name:            parsed.name,
+      address:         parsed.address,
+      lat:             parsed.lat,
+      lng:             parsed.lng,
+      google_place_id: parsed.place_id, // stores "node/12345" — no schema change needed
+      cuisine_type:    parsed.cuisine_type ?? null,
       cover_photo_url: parsed.cover_photo_url ?? null,
     })
     .select("id")
@@ -40,7 +43,6 @@ export async function createRestaurant(formData: FormData) {
 
   if (rError) throw new Error(rError.message);
 
-  // Assign rank at bottom
   const { data: maxRank } = await supabase
     .from("rankings")
     .select("rank_position")

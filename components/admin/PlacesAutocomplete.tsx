@@ -1,79 +1,56 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-interface PlacePrediction {
-  place_id: string;
-  description: string;
-}
+import type { NominatimResult } from "@/lib/nominatim";
 
 interface Props {
-  onSelect: (placeId: string, description: string) => void;
+  onSelect: (result: NominatimResult) => void;
 }
 
 export function PlacesAutocomplete({ onSelect }: Props) {
   const [query, setQuery] = useState("");
-  const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
+  const [results, setResults] = useState<NominatimResult[]>([]);
   const [open, setOpen] = useState(false);
-  const autocompleteService =
-    useRef<google.maps.places.AutocompleteService | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY!,
-      version: "weekly",
-      libraries: ["places"],
-    });
-
-    loader.importLibrary("places").then(() => {
-      autocompleteService.current =
-        new google.maps.places.AutocompleteService();
-    });
-  }, []);
 
   function handleInput(value: string) {
     setQuery(value);
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    if (!value.trim() || !autocompleteService.current) {
-      setPredictions([]);
+    if (!value.trim()) {
+      setResults([]);
       setOpen(false);
       return;
     }
 
-    debounceRef.current = setTimeout(() => {
-      autocompleteService.current!.getPlacePredictions(
-        { input: value, componentRestrictions: { country: "jp" } },
-        (results, status) => {
-          if (
-            status === google.maps.places.PlacesServiceStatus.OK &&
-            results
-          ) {
-            setPredictions(
-              results.map((r) => ({
-                place_id: r.place_id,
-                description: r.description,
-              })),
-            );
-            setOpen(true);
-          } else {
-            setPredictions([]);
-            setOpen(false);
-          }
-        },
-      );
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const url = new URL("https://nominatim.openstreetmap.org/search");
+        url.searchParams.set("q", value);
+        url.searchParams.set("format", "json");
+        url.searchParams.set("limit", "5");
+        url.searchParams.set("countrycodes", "jp");
+
+        const res = await fetch(url.toString(), {
+          headers: { "User-Agent": "NumazuTabemono/1.0" },
+        });
+        const data: NominatimResult[] = await res.json();
+        setResults(data);
+        setOpen(data.length > 0);
+      } catch {
+        setResults([]);
+        setOpen(false);
+      }
     }, 300);
   }
 
-  function handleSelect(prediction: PlacePrediction) {
-    setQuery(prediction.description);
-    setPredictions([]);
+  function handleSelect(result: NominatimResult) {
+    setQuery(result.display_name);
+    setResults([]);
     setOpen(false);
-    onSelect(prediction.place_id, prediction.description);
+    onSelect(result);
   }
 
   return (
@@ -87,16 +64,16 @@ export function PlacesAutocomplete({ onSelect }: Props) {
         autoComplete="off"
         className="mt-1"
       />
-      {open && predictions.length > 0 && (
+      {open && results.length > 0 && (
         <ul className="absolute z-20 mt-1 w-full bg-popover border border-border rounded-md shadow-lg max-h-60 overflow-auto">
-          {predictions.map((p) => (
-            <li key={p.place_id}>
+          {results.map((r) => (
+            <li key={`${r.osm_type}/${r.osm_id}`}>
               <button
                 type="button"
-                onClick={() => handleSelect(p)}
+                onClick={() => handleSelect(r)}
                 className="w-full text-left px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
               >
-                {p.description}
+                {r.display_name}
               </button>
             </li>
           ))}
