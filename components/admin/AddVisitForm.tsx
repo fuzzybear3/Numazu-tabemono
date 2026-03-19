@@ -15,7 +15,7 @@ const CUISINE_CHIPS: Record<'ramen' | 'tonkatsu', string[]> = {
 
 interface Props {
   restaurantId:    string;
-  cuisineCategory?: 'ramen' | 'tonkatsu' | 'other';
+  cuisineCategory?: 'ramen' | 'tonkatsu' | 'sushi' | 'other';
 }
 
 export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props) {
@@ -26,7 +26,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
   const [uploading, setUploading]   = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const chips = cuisineCategory !== "other" ? CUISINE_CHIPS[cuisineCategory] : null;
+  const chips = (cuisineCategory === 'ramen' || cuisineCategory === 'tonkatsu') ? CUISINE_CHIPS[cuisineCategory] : null;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

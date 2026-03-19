@@ -6,7 +6,7 @@ export interface Restaurant {
   lng: number;
   google_place_id: string;
   cuisine_type: string | null;
-  cuisine_category: 'ramen' | 'tonkatsu' | 'other';
+  cuisine_category: 'ramen' | 'tonkatsu' | 'sushi' | 'other';
   cover_photo_url: string | null;
   created_at: string;
 }

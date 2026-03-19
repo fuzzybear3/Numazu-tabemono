@@ -194,6 +194,7 @@ export function AddRestaurantForm() {
           <option value="other">Other</option>
           <option value="ramen">Ramen</option>
           <option value="tonkatsu">Tonkatsu</option>
+          <option value="sushi">Sushi</option>
         </select>
       </div>
 

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
-const CuisineCategorySchema = z.enum(['ramen', 'tonkatsu', 'other']).default('other');
+const CuisineCategorySchema = z.enum(['ramen', 'tonkatsu', 'sushi', 'other']).default('other');
 
 const CreateRestaurantSchema = z.object({
   place_id:         z.string().min(1),
