@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { createVisit } from "@/actions/visits";
 import { uploadFoodPhoto } from "@/lib/storage";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError]           = useState<string | null>(null);
   const [success, setSuccess]       = useState(false);
@@ -55,6 +57,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
         setSuccess(true);
         setSelectedItem(null);
         form.reset();
+        router.refresh();
       } catch (err) {
         setUploading(false);
         setError(err instanceof Error ? err.message : "Failed to log visit");

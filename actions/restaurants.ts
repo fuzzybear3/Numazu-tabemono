@@ -45,27 +45,6 @@ export async function createRestaurant(formData: FormData) {
 
   if (rError) throw new Error(rError.message);
 
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
-
-  const { data: maxRank } = await supabase
-    .from("rankings")
-    .select("rank_position")
-    .eq("user_id", user.id)
-    .order("rank_position", { ascending: false })
-    .limit(1)
-    .single();
-
-  const nextPosition = (maxRank?.rank_position ?? 0) + 1;
-
-  const { error: rankError } = await supabase.from("rankings").insert({
-    restaurant_id: restaurant.id,
-    rank_position: nextPosition,
-    user_id:       user.id,
-  });
-
-  if (rankError) throw new Error(rankError.message);
-
   revalidatePath("/");
   revalidatePath("/admin");
 
