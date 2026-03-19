@@ -9,10 +9,10 @@ async function VisitSection() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("restaurants")
-    .select("id, name")
+    .select("id, name, cuisine_category")
     .order("name", { ascending: true });
 
-  const restaurantList = (data ?? []) as Pick<Restaurant, "id" | "name">[];
+  const restaurantList = (data ?? []) as Pick<Restaurant, "id" | "name" | "cuisine_category">[];
 
   if (restaurantList.length === 0) return null;
 

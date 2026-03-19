@@ -5,6 +5,11 @@ import { DraggableRankList } from "@/components/leaderboard/DraggableRankList";
 export async function RankingManager() {
   const supabase = await createClient();
 
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return <p className="text-muted-foreground">Sign in to manage your rankings.</p>;
+  }
+
   const { data, error } = await supabase
     .from("rankings")
     .select(
@@ -12,10 +17,11 @@ export async function RankingManager() {
       rank_position,
       restaurants (
         id, name, address, lat, lng,
-        google_place_id, cuisine_type, cover_photo_url, created_at
+        google_place_id, cuisine_type, cuisine_category, cover_photo_url, created_at
       )
     `,
     )
+    .eq("user_id", user.id)
     .order("rank_position", { ascending: true });
 
   if (error) {

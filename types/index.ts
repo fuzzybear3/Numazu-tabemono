@@ -6,6 +6,7 @@ export interface Restaurant {
   lng: number;
   google_place_id: string;
   cuisine_type: string | null;
+  cuisine_category: 'ramen' | 'tonkatsu' | 'other';
   cover_photo_url: string | null;
   created_at: string;
 }
@@ -13,6 +14,7 @@ export interface Restaurant {
 export interface Visit {
   id: string;
   restaurant_id: string;
+  user_id: string;
   visited_at: string;
   menu_item: string | null;
   food_photo_url: string | null;
@@ -23,6 +25,7 @@ export interface Visit {
 export interface Ranking {
   id: string;
   restaurant_id: string;
+  user_id: string;
   rank_position: number;
   updated_at: string;
 }

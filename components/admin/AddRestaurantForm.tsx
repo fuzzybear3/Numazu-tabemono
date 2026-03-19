@@ -184,12 +184,17 @@ export function AddRestaurantForm() {
       <input type="hidden" name="lng"      value={place?.lng ?? ""} />
 
       <div className="grid gap-1.5">
-        <Label htmlFor="cuisine_type">Cuisine type (optional)</Label>
-        <Input
-          id="cuisine_type"
-          name="cuisine_type"
-          placeholder="e.g. Sushi, Ramen, Izakaya"
-        />
+        <Label htmlFor="cuisine_category">Category</Label>
+        <select
+          id="cuisine_category"
+          name="cuisine_category"
+          defaultValue="other"
+          className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        >
+          <option value="other">Other</option>
+          <option value="ramen">Ramen</option>
+          <option value="tonkatsu">Tonkatsu</option>
+        </select>
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}

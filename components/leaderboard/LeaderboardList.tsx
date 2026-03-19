@@ -6,17 +6,18 @@ export async function LeaderboardList() {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("rankings")
+    .from("global_rankings")
     .select(
       `
-      rank_position,
+      avg_position,
+      voter_count,
       restaurants (
         id, name, address, lat, lng,
-        google_place_id, cuisine_type, cover_photo_url, created_at
+        google_place_id, cuisine_type, cuisine_category, cover_photo_url, created_at
       )
     `,
     )
-    .order("rank_position", { ascending: true });
+    .order("avg_position", { ascending: true });
 
   if (error) {
     return (
@@ -34,9 +35,9 @@ export async function LeaderboardList() {
 
   const ranked: RankedRestaurant[] = data
     .filter((row) => row.restaurants)
-    .map((row) => ({
+    .map((row, index) => ({
       ...(row.restaurants as unknown as RankedRestaurant),
-      rank_position: row.rank_position,
+      rank_position: index + 1,
     }));
 
   return (

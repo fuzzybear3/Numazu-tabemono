@@ -6,11 +6,13 @@ import { AddVisitForm } from "./AddVisitForm";
 import { Restaurant } from "@/types";
 
 interface Props {
-  restaurants: Pick<Restaurant, "id" | "name">[];
+  restaurants: Pick<Restaurant, "id" | "name" | "cuisine_category">[];
 }
 
 export function VisitFormWithPicker({ restaurants }: Props) {
   const [selectedId, setSelectedId] = useState(restaurants[0]?.id ?? "");
+
+  const selected = restaurants.find((r) => r.id === selectedId);
 
   return (
     <div className="space-y-4">
@@ -30,7 +32,12 @@ export function VisitFormWithPicker({ restaurants }: Props) {
         </select>
       </div>
 
-      {selectedId && <AddVisitForm restaurantId={selectedId} />}
+      {selectedId && (
+        <AddVisitForm
+          restaurantId={selectedId}
+          cuisineCategory={selected?.cuisine_category ?? "other"}
+        />
+      )}
     </div>
   );
 }

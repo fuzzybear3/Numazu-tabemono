@@ -2,6 +2,32 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { LeaderboardList } from "@/components/leaderboard/LeaderboardList";
+import { createClient } from "@/lib/supabase/server";
+
+async function NavAuthLink() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    return (
+      <Link
+        href="/admin"
+        className="text-muted-foreground hover:text-foreground transition-colors"
+      >
+        My Ranking
+      </Link>
+    );
+  }
+
+  return (
+    <Link
+      href="/auth/login"
+      className="text-muted-foreground hover:text-foreground transition-colors"
+    >
+      Login
+    </Link>
+  );
+}
 
 export default function Home() {
   return (
@@ -18,6 +44,9 @@ export default function Home() {
             >
               Map
             </Link>
+            <Suspense fallback={null}>
+              <NavAuthLink />
+            </Suspense>
             <ThemeSwitcher />
           </div>
         </div>

@@ -7,15 +7,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+const CUISINE_CHIPS: Record<'ramen' | 'tonkatsu', string[]> = {
+  ramen:    ["Shoyu Ramen", "Miso Ramen", "Shio Ramen", "Tonkotsu Ramen", "Tantanmen", "Tsukemen"],
+  tonkatsu: ["Tonkatsu"],
+};
+
 interface Props {
-  restaurantId: string;
+  restaurantId:    string;
+  cuisineCategory?: 'ramen' | 'tonkatsu' | 'other';
 }
 
-export function AddVisitForm({ restaurantId }: Props) {
+export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props) {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [error, setError]           = useState<string | null>(null);
+  const [success, setSuccess]       = useState(false);
+  const [uploading, setUploading]   = useState(false);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  const chips = cuisineCategory !== "other" ? CUISINE_CHIPS[cuisineCategory] : null;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -26,6 +35,11 @@ export function AddVisitForm({ restaurantId }: Props) {
     const formData = new FormData(form);
     const fileInput = form.querySelector<HTMLInputElement>('input[type="file"]');
     const file = fileInput?.files?.[0];
+
+    if (chips && !selectedItem) {
+      setError("Please select a ramen type.");
+      return;
+    }
 
     startTransition(async () => {
       try {
@@ -39,6 +53,7 @@ export function AddVisitForm({ restaurantId }: Props) {
         formData.set("restaurant_id", restaurantId);
         await createVisit(formData);
         setSuccess(true);
+        setSelectedItem(null);
         form.reset();
       } catch (err) {
         setUploading(false);
@@ -61,12 +76,32 @@ export function AddVisitForm({ restaurantId }: Props) {
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="menu_item">Menu item (optional)</Label>
-        <Input
-          id="menu_item"
-          name="menu_item"
-          placeholder="e.g. Toro nigiri"
-        />
+        <Label>Menu item {chips ? <span className="text-destructive">*</span> : "(optional)"}</Label>
+        {chips ? (
+          <div className="flex flex-wrap gap-2">
+            {chips.map((chip) => (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => setSelectedItem(selectedItem === chip ? null : chip)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  selectedItem === chip
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-input bg-background hover:bg-muted"
+                }`}
+              >
+                {chip}
+              </button>
+            ))}
+            <input type="hidden" name="menu_item" value={selectedItem ?? ""} />
+          </div>
+        ) : (
+          <Input
+            id="menu_item"
+            name="menu_item"
+            placeholder="e.g. Toro nigiri"
+          />
+        )}
       </div>
 
       <div className="grid gap-1.5">
