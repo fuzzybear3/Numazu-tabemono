@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { RankedRestaurant } from "@/types";
-import { RestaurantCard } from "./RestaurantCard";
+import { LeaderboardView } from "./LeaderboardView";
+
+export type RankedRestaurantWithVotes = RankedRestaurant & { voter_count: number };
 
 export async function LeaderboardList() {
   const supabase = await createClient();
@@ -21,30 +23,27 @@ export async function LeaderboardList() {
 
   if (error) {
     return (
-      <p className="text-destructive">Failed to load leaderboard: {error.message}</p>
+      <p className="text-red-400 font-label">
+        Failed to load leaderboard: {error.message}
+      </p>
     );
   }
 
   if (!data || data.length === 0) {
     return (
-      <p className="text-muted-foreground text-center py-12">
-        No restaurants ranked yet. Add some from the admin panel!
+      <p className="text-[#d4c5ab] text-center py-12 font-body italic">
+        No restaurants ranked yet.
       </p>
     );
   }
 
-  const ranked: RankedRestaurant[] = data
+  const ranked: RankedRestaurantWithVotes[] = data
     .filter((row) => row.restaurants)
     .map((row, index) => ({
       ...(row.restaurants as unknown as RankedRestaurant),
       rank_position: index + 1,
+      voter_count: row.voter_count ?? 1,
     }));
 
-  return (
-    <div className="flex flex-col gap-2">
-      {ranked.map((restaurant) => (
-        <RestaurantCard key={restaurant.id} restaurant={restaurant} />
-      ))}
-    </div>
-  );
+  return <LeaderboardView restaurants={ranked} />;
 }

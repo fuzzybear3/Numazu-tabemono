@@ -8,23 +8,23 @@ async function MapContent() {
   const supabase = await createClient();
 
   const { data } = await supabase
-    .from("rankings")
+    .from("global_rankings")
     .select(
       `
-      rank_position,
+      avg_position,
       restaurants (
         id, name, address, lat, lng,
         google_place_id, cuisine_type, cover_photo_url, created_at
       )
     `,
     )
-    .order("rank_position", { ascending: true });
+    .order("avg_position", { ascending: true });
 
   const restaurants: RankedRestaurant[] = (data ?? [])
     .filter((row) => row.restaurants)
-    .map((row) => ({
+    .map((row, index) => ({
       ...(row.restaurants as unknown as RankedRestaurant),
-      rank_position: row.rank_position,
+      rank_position: index + 1,
     }));
 
   return <MapView restaurants={restaurants} />;

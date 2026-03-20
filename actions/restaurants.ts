@@ -46,7 +46,7 @@ export async function createRestaurant(formData: FormData) {
   if (rError) throw new Error(rError.message);
 
   revalidatePath("/");
-  revalidatePath("/admin");
+  revalidatePath("/ranker");
 
   return { id: restaurant.id };
 }

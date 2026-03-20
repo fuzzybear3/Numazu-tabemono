@@ -29,5 +29,5 @@ export async function reorderRankings(orderedIds: string[]) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/");
-  revalidatePath("/admin");
+  revalidatePath("/ranker");
 }

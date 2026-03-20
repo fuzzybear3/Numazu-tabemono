@@ -1,69 +1,51 @@
-import Link from "next/link";
 import { Suspense } from "react";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import Link from "next/link";
 import { LeaderboardList } from "@/components/leaderboard/LeaderboardList";
-import { createClient } from "@/lib/supabase/server";
-
-async function NavAuthLink() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user) {
-    return (
-      <Link
-        href="/admin"
-        className="text-muted-foreground hover:text-foreground transition-colors"
-      >
-        My Ranking
-      </Link>
-    );
-  }
-
-  return (
-    <Link
-      href="/auth/login"
-      className="text-muted-foreground hover:text-foreground transition-colors"
-    >
-      Login
-    </Link>
-  );
-}
+import { BottomNav } from "@/components/BottomNav";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <nav className="w-full flex justify-center border-b border-border h-14">
-        <div className="w-full max-w-2xl flex justify-between items-center px-4">
-          <Link href="/" className="font-bold text-lg">
-            Numazu Tabemono
+    <main className="min-h-screen bg-[#131313] selection:bg-[#ffbf00] selection:text-[#402d00]">
+      {/* Noise overlay */}
+      <div className="noise-overlay fixed inset-0 z-[100]" />
+
+      {/* TopAppBar */}
+      <header className="bg-[#131313] top-0 sticky z-50">
+        <div className="flex justify-between items-center px-6 py-4 w-full">
+          <span className="material-symbols-outlined text-[#ffbf00] cursor-pointer select-none">
+            menu
+          </span>
+          <h1 className="font-headline italic tracking-wide text-2xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.4)]">
+            Tamemono 食べ物
+          </h1>
+          <Link href="/ranker">
+            <div className="w-10 h-10 rounded-full bg-[#353535] flex items-center justify-center overflow-hidden border border-[#504532]/30 hover:border-[#504532]/60 transition-colors">
+              <span className="material-symbols-outlined text-[#9c8f78] text-xl select-none">
+                person
+              </span>
+            </div>
           </Link>
-          <div className="flex items-center gap-4 text-sm">
-            <Link
-              href="/map"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Map
-            </Link>
-            <Suspense fallback={null}>
-              <NavAuthLink />
-            </Suspense>
-            <ThemeSwitcher />
-          </div>
         </div>
-      </nav>
+        <div className="bg-gradient-to-b from-[#20201f] to-transparent h-1" />
+      </header>
 
-      <div className="flex-1 w-full max-w-2xl mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">Restaurant Rankings</h1>
-          <p className="text-muted-foreground mt-1">
-            Our definitive guide to eating well in Numazu.
+      {/* Main content */}
+      <div className="max-w-5xl mx-auto px-6 pt-8 pb-32 space-y-12">
+        {/* Page header */}
+        <section className="space-y-2">
+          <h2 className="font-headline text-4xl md:text-5xl text-[#e5e2e1]">
+            The Numazu Scroll
+          </h2>
+          <p className="font-body text-[#d4c5ab] italic opacity-80">
+            Ranked by the midnight wanderers.
           </p>
-        </div>
+        </section>
 
+        {/* Leaderboard */}
         <Suspense
           fallback={
-            <div className="text-muted-foreground text-center py-12">
-              Loading...
+            <div className="text-[#d4c5ab] text-center py-12 font-body italic">
+              Loading the scroll...
             </div>
           }
         >
@@ -71,9 +53,16 @@ export default function Home() {
         </Suspense>
       </div>
 
-      <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        Numazu Tabemono &mdash; Numazu, Japan
-      </footer>
+      {/* FAB */}
+      <div className="fixed bottom-24 right-6 z-40">
+        <Link href="/ranker">
+          <button className="w-14 h-14 rounded-full bg-[#ffbf00] text-[#402d00] shadow-[0_8px_25px_rgba(255,191,0,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300">
+            <span className="material-symbols-outlined text-3xl select-none">add</span>
+          </button>
+        </Link>
+      </div>
+
+      <BottomNav activeTab="rankings" />
     </main>
   );
 }
