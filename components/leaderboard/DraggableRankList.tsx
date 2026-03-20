@@ -28,7 +28,7 @@ interface SortableItemProps {
 }
 
 function SortableItem({ restaurant, index }: SortableItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } =
     useSortable({ id: restaurant.id });
 
   const style = {
@@ -40,20 +40,25 @@ function SortableItem({ restaurant, index }: SortableItemProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg cursor-grab active:cursor-grabbing"
-      {...attributes}
-      {...listeners}
+      className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg"
     >
-      <span className="text-muted-foreground font-mono w-6 text-center">
+      <span className="text-muted-foreground font-mono w-6 text-center flex-shrink-0">
         {index + 1}
       </span>
-      <span className="text-muted-foreground">⠿</span>
       <div className="flex-1 min-w-0">
         <p className="font-medium truncate">{restaurant.name}</p>
         <p className="text-xs text-muted-foreground truncate">
           {restaurant.cuisine_type ?? restaurant.address}
         </p>
       </div>
+      <span
+        ref={setActivatorNodeRef}
+        {...listeners}
+        {...attributes}
+        className="text-muted-foreground cursor-grab active:cursor-grabbing touch-none select-none px-1"
+      >
+        ⠿
+      </span>
     </div>
   );
 }
