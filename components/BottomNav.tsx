@@ -8,7 +8,7 @@ interface Props {
 
 export function BottomNav({ activeTab }: Props) {
   return (
-    <nav className="fixed bottom-0 w-full z-50 rounded-t-2xl bg-[#20201f]/90 backdrop-blur-xl border-t border-[#504532]/20 shadow-[0_-10px_40px_rgba(0,0,0,0.6)]">
+    <nav className="lg:hidden fixed bottom-0 w-full z-50 rounded-t-2xl bg-[#20201f]/90 backdrop-blur-xl border-t border-[#504532]/20 shadow-[0_-10px_40px_rgba(0,0,0,0.6)]">
       <div className="flex justify-around items-center h-20 px-4">
         <Link
           href="/ranker"

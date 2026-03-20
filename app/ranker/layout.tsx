@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LogoutButton } from "@/components/logout-button";
+import { DesktopSidebar } from "@/components/DesktopSidebar";
 
 export default function RankerLayout({
   children,
@@ -8,7 +9,10 @@ export default function RankerLayout({
 }) {
   return (
     <div className="min-h-screen bg-[#131313]">
-      <header className="bg-[#131313] top-0 sticky z-50">
+      <DesktopSidebar activeTab="journal" />
+
+      {/* Mobile header — hidden on desktop */}
+      <header className="lg:hidden bg-[#131313] top-0 sticky z-50">
         <div className="flex justify-between items-center px-6 py-4 w-full">
           <div className="flex items-center gap-4">
             <Link href="/">
@@ -24,7 +28,14 @@ export default function RankerLayout({
         </div>
         <div className="bg-gradient-to-b from-[#20201f] to-transparent h-1" />
       </header>
-      <div className="flex-1">{children}</div>
+
+      {/* Desktop: offset for sidebar, add logout to top-right */}
+      <div className="lg:pl-[260px]">
+        <div className="hidden lg:flex justify-end items-center px-8 py-4 border-b border-[#504532]/10">
+          <LogoutButton />
+        </div>
+        <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 }

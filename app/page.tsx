@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { LeaderboardList } from "@/components/leaderboard/LeaderboardList";
 import { BottomNav } from "@/components/BottomNav";
+import { DesktopSidebar } from "@/components/DesktopSidebar";
 
 export default function Home() {
   return (
@@ -9,8 +10,10 @@ export default function Home() {
       {/* Noise overlay */}
       <div className="noise-overlay fixed inset-0 z-[100]" />
 
-      {/* TopAppBar */}
-      <header className="bg-[#131313] top-0 sticky z-50">
+      <DesktopSidebar activeTab="rankings" />
+
+      {/* Mobile TopAppBar — hidden on desktop */}
+      <header className="lg:hidden bg-[#131313] top-0 sticky z-50">
         <div className="flex justify-between items-center px-6 py-4 w-full">
           <span className="material-symbols-outlined text-[#ffbf00] cursor-pointer select-none">
             menu
@@ -30,31 +33,31 @@ export default function Home() {
       </header>
 
       {/* Main content */}
-      <div className="max-w-5xl mx-auto px-6 pt-8 pb-32 space-y-12">
-        {/* Page header */}
-        <section className="space-y-2">
-          <h2 className="font-headline text-4xl md:text-5xl text-[#e5e2e1]">
-            The Numazu Scroll
-          </h2>
-          <p className="font-body text-[#d4c5ab] italic opacity-80">
-            Ranked by the midnight wanderers.
-          </p>
-        </section>
+      <div className="lg:pl-[260px]">
+        <div className="max-w-5xl mx-auto px-6 pt-8 pb-32 lg:pb-12 space-y-12">
+          <section className="space-y-2">
+            <h2 className="font-headline text-4xl md:text-5xl text-[#e5e2e1]">
+              The Numazu Scroll
+            </h2>
+            <p className="font-body text-[#d4c5ab] italic opacity-80">
+              Ranked by the midnight wanderers.
+            </p>
+          </section>
 
-        {/* Leaderboard */}
-        <Suspense
-          fallback={
-            <div className="text-[#d4c5ab] text-center py-12 font-body italic">
-              Loading the scroll...
-            </div>
-          }
-        >
-          <LeaderboardList />
-        </Suspense>
+          <Suspense
+            fallback={
+              <div className="text-[#d4c5ab] text-center py-12 font-body italic">
+                Loading the scroll...
+              </div>
+            }
+          >
+            <LeaderboardList />
+          </Suspense>
+        </div>
       </div>
 
-      {/* FAB */}
-      <div className="fixed bottom-24 right-6 z-40">
+      {/* FAB — mobile only */}
+      <div className="lg:hidden fixed bottom-24 right-6 z-40">
         <Link href="/ranker">
           <button className="w-14 h-14 rounded-full bg-[#ffbf00] text-[#402d00] shadow-[0_8px_25px_rgba(255,191,0,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300">
             <span className="material-symbols-outlined text-3xl select-none">add</span>

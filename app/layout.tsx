@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Newsreader, Noto_Serif, Manrope } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
@@ -11,45 +10,24 @@ export const metadata: Metadata = {
   description: "The ultimate restaurant leaderboard for Numazu, Japan.",
 };
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  display: "swap",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["400", "700"],
-});
-
-const notoSerif = Noto_Serif({
-  variable: "--font-noto-serif",
-  display: "swap",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  display: "swap",
-  subsets: ["latin"],
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${newsreader.variable} ${notoSerif.variable} ${manrope.variable}`}
-    >
-      <head>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased">
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&display=swap"
+          precedence="default"
+        />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          precedence="default"
         />
-      </head>
-      <body className="antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
