@@ -43,20 +43,8 @@ export function DesktopSidebar({ activeTab }: Props) {
 
       {/* Nav */}
       <nav className="flex-1 px-3 space-y-0.5">
-        {navItems.map(({ tab, href, icon, label, disabled }) => {
+        {navItems.map(({ tab, href, icon, label }) => {
           const isActive = activeTab === tab;
-
-          if (disabled) {
-            return (
-              <div
-                key={tab}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#e5e2e1]/20 cursor-not-allowed select-none"
-              >
-                <span className="material-symbols-outlined text-xl">{icon}</span>
-                <span className="font-label text-sm tracking-wide">{label}</span>
-              </div>
-            );
-          }
 
           return (
             <Link
