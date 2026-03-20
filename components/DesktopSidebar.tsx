@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-type ActiveTab = "journal" | "rankings" | "map" | "archive";
+type ActiveTab = "journal" | "rankings" | "map";
 
 interface Props {
   activeTab?: ActiveTab;
@@ -12,7 +12,7 @@ const navItems = [
   {
     tab: "rankings" as ActiveTab,
     href: "/",
-    icon: "restaurant",
+    icon: "format_list_numbered",
     label: "Rankings",
   },
   {
@@ -20,12 +20,6 @@ const navItems = [
     href: "/map",
     icon: "map",
     label: "Map",
-  },
-  {
-    tab: "archive" as ActiveTab,
-    href: "/?view=list",
-    icon: "format_list_numbered",
-    label: "List",
   },
 ];
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 interface Props {
-  activeTab?: "journal" | "rankings" | "map" | "archive";
+  activeTab?: "journal" | "rankings" | "map";
 }
 
 export function BottomNav({ activeTab }: Props) {
@@ -42,7 +42,7 @@ export function BottomNav({ activeTab }: Props) {
                 : undefined
             }
           >
-            restaurant
+            format_list_numbered
           </span>
           <span className="font-label text-[10px] uppercase tracking-widest">
             Rankings
@@ -62,22 +62,6 @@ export function BottomNav({ activeTab }: Props) {
           </span>
           <span className="font-label text-[10px] uppercase tracking-widest">
             Map
-          </span>
-        </Link>
-
-        <Link
-          href="/?view=list"
-          className={`flex flex-col items-center justify-center transition-all duration-300 ${
-            activeTab === "archive"
-              ? "text-[#ffbf00] scale-110"
-              : "text-[#e5e2e1]/40 hover:text-[#ffe2ab]"
-          }`}
-        >
-          <span className="material-symbols-outlined mb-1 select-none">
-            format_list_numbered
-          </span>
-          <span className="font-label text-[10px] uppercase tracking-widest">
-            List
           </span>
         </Link>
       </div>
