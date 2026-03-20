@@ -51,7 +51,8 @@ export default function MapPage() {
           </Link>
         </nav>
 
-        <div className="flex-1 relative">
+        {/* isolate keeps Leaflet's internal z-indices from escaping and covering the BottomNav */}
+        <div className="flex-1 relative [isolation:isolate] pb-20 lg:pb-0">
           <Suspense
             fallback={
               <div className="flex items-center justify-center h-full text-[#d4c5ab] font-body italic">

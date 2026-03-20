@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { divIcon } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -30,8 +31,12 @@ interface Props {
 }
 
 export default function LeafletMap({ restaurants, onSelect }: Props) {
+  // Fresh key on every mount prevents "Map container is being reused" on navigation
+  const [mapKey] = useState(() => Math.random());
+
   return (
     <MapContainer
+      key={mapKey}
       center={CENTER}
       zoom={13}
       style={{ width: "100%", height: "100%" }}
