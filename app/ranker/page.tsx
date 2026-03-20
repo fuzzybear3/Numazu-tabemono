@@ -40,44 +40,46 @@ async function VisitSection() {
 
 export default function RankerPage() {
   return (
-    <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 pb-32 space-y-16">
-      <Suspense fallback={null}>
-        <VisitSection />
-      </Suspense>
-
-      <section className="space-y-6">
-        <div className="border-t border-[#504532]/10 pt-8">
-          <h2 className="font-headline text-2xl text-[#e5e2e1] mb-1">
-            Add Restaurant
-          </h2>
-          <p className="font-body text-sm text-[#9c8f78] italic mb-6">
-            Register a new establishment.
-          </p>
-        </div>
-        <AddRestaurantForm />
-      </section>
-
-      <section className="space-y-6">
-        <div className="border-t border-[#504532]/10 pt-8">
-          <h2 className="font-headline text-2xl text-[#e5e2e1] mb-1">
-            Rank Hierarchy
-          </h2>
-          <p className="font-body text-sm text-[#d4c5ab] italic mb-6">
-            Drag to reorder, then save.
-          </p>
-        </div>
-        <Suspense
-          fallback={
-            <p className="text-[#d4c5ab] font-body italic">
-              Loading rankings...
-            </p>
-          }
-        >
-          <RankingManager />
+    <>
+      <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 pb-32 space-y-16">
+        <Suspense fallback={null}>
+          <VisitSection />
         </Suspense>
-      </section>
+
+        <section className="space-y-6">
+          <div className="border-t border-[#504532]/10 pt-8">
+            <h2 className="font-headline text-2xl text-[#e5e2e1] mb-1">
+              Add Restaurant
+            </h2>
+            <p className="font-body text-sm text-[#9c8f78] italic mb-6">
+              Register a new establishment.
+            </p>
+          </div>
+          <AddRestaurantForm />
+        </section>
+
+        <section className="space-y-6">
+          <div className="border-t border-[#504532]/10 pt-8">
+            <h2 className="font-headline text-2xl text-[#e5e2e1] mb-1">
+              Rank Hierarchy
+            </h2>
+            <p className="font-body text-sm text-[#d4c5ab] italic mb-6">
+              Drag to reorder, then save.
+            </p>
+          </div>
+          <Suspense
+            fallback={
+              <p className="text-[#d4c5ab] font-body italic">
+                Loading rankings...
+              </p>
+            }
+          >
+            <RankingManager />
+          </Suspense>
+        </section>
+      </div>
 
       <BottomNav activeTab="journal" />
-    </div>
+    </>
   );
 }

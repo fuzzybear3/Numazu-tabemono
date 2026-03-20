@@ -4,7 +4,11 @@ import { LeaderboardList } from "@/components/leaderboard/LeaderboardList";
 import { BottomNav } from "@/components/BottomNav";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>;
+}) {
   return (
     <main className="min-h-screen bg-[#131313] selection:bg-[#ffbf00] selection:text-[#402d00]">
       {/* Noise overlay */}
@@ -35,13 +39,10 @@ export default function Home() {
       {/* Main content */}
       <div className="lg:pl-[260px]">
         <div className="max-w-5xl mx-auto px-6 pt-8 pb-32 lg:pb-12 space-y-12">
-          <section className="space-y-2">
+          <section>
             <h2 className="font-headline text-4xl md:text-5xl text-[#e5e2e1]">
-              The Numazu Scroll
+              Leaderboard
             </h2>
-            <p className="font-body text-[#d4c5ab] italic opacity-80">
-              Ranked by the midnight wanderers.
-            </p>
           </section>
 
           <Suspense
@@ -51,7 +52,7 @@ export default function Home() {
               </div>
             }
           >
-            <LeaderboardList />
+            <LeaderboardList searchParams={searchParams} />
           </Suspense>
         </div>
       </div>

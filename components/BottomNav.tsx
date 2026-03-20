@@ -65,12 +65,21 @@ export function BottomNav({ activeTab }: Props) {
           </span>
         </Link>
 
-        <div className="flex flex-col items-center justify-center text-[#e5e2e1]/20 cursor-not-allowed select-none">
-          <span className="material-symbols-outlined mb-1">history_edu</span>
-          <span className="font-label text-[10px] uppercase tracking-widest">
-            Archive
+        <Link
+          href="/?view=list"
+          className={`flex flex-col items-center justify-center transition-all duration-300 ${
+            activeTab === "archive"
+              ? "text-[#ffbf00] scale-110"
+              : "text-[#e5e2e1]/40 hover:text-[#ffe2ab]"
+          }`}
+        >
+          <span className="material-symbols-outlined mb-1 select-none">
+            format_list_numbered
           </span>
-        </div>
+          <span className="font-label text-[10px] uppercase tracking-widest">
+            List
+          </span>
+        </Link>
       </div>
     </nav>
   );

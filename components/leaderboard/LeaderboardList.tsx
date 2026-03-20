@@ -1,10 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
 import { RankedRestaurant } from "@/types";
-import { LeaderboardView } from "./LeaderboardView";
+import { LeaderboardView, View } from "./LeaderboardView";
 
 export type RankedRestaurantWithVotes = RankedRestaurant & { voter_count: number };
 
-export async function LeaderboardList() {
+export async function LeaderboardList({
+  searchParams,
+}: {
+  searchParams?: Promise<{ view?: string }>;
+}) {
+  const params = searchParams ? await searchParams : {};
+  const initialView: View = params.view === "cards" ? "cards" : "list";
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -45,5 +51,5 @@ export async function LeaderboardList() {
       voter_count: row.voter_count ?? 1,
     }));
 
-  return <LeaderboardView restaurants={ranked} />;
+  return <LeaderboardView restaurants={ranked} initialView={initialView} />;
 }

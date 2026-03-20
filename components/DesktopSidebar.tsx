@@ -23,10 +23,9 @@ const navItems = [
   },
   {
     tab: "archive" as ActiveTab,
-    href: "#",
-    icon: "history_edu",
-    label: "Archive",
-    disabled: true,
+    href: "/?view=list",
+    icon: "format_list_numbered",
+    label: "List",
   },
 ];
 
