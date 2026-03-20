@@ -41,7 +41,7 @@ export default function MapPage() {
         {/* Mobile nav — hidden on desktop */}
         <nav className="lg:hidden w-full flex justify-between items-center px-4 h-14 border-b border-[#504532]/20 flex-shrink-0 bg-[#131313]">
           <Link href="/" className="font-headline italic text-lg text-[#ffbf00]">
-            Tamemono
+            Tabemono
           </Link>
           <Link
             href="/"

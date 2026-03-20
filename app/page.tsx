@@ -23,7 +23,7 @@ export default function Home({
             menu
           </span>
           <h1 className="font-headline italic tracking-wide text-2xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.4)]">
-            Tamemono 食べ物
+            Tabemono 食べ物
           </h1>
           <Link href="/ranker">
             <div className="w-10 h-10 rounded-full bg-[#353535] flex items-center justify-center overflow-hidden border border-[#504532]/30 hover:border-[#504532]/60 transition-colors">

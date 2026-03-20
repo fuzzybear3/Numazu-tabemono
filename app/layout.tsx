@@ -6,7 +6,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
-  title: "Tamemono 食べ物 — Numazu",
+  title: "Tabemono 食べ物 — Numazu",
   description: "The ultimate restaurant leaderboard for Numazu, Japan.",
 };
 

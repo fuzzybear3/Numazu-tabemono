@@ -32,7 +32,7 @@ export function DesktopSidebar({ activeTab }: Props) {
           食
         </span>
         <h1 className="font-headline italic text-xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.3)] relative z-10">
-          Tamemono 食べ物
+          Tabemono 食べ物
         </h1>
         <p className="font-label text-[10px] uppercase tracking-[0.25em] text-[#9c8f78] mt-1.5 relative z-10">
           Numazu, Japan
