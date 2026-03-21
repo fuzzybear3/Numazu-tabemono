@@ -1,8 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { RankedRestaurant } from "@/types";
-import { LeaderboardView, View } from "./LeaderboardView";
-
-export type RankedRestaurantWithVotes = RankedRestaurant & { voter_count: number };
+import { LeaderboardView, View, RankedRestaurantWithVotes } from "./LeaderboardView";
 
 export async function LeaderboardList({
   searchParams,
