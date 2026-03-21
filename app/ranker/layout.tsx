@@ -1,42 +1,24 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { LogoutButton } from "@/components/logout-button";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { BottomNav } from "@/components/BottomNav";
 import { createClient } from "@/lib/supabase/server";
 
-export const dynamic = "force-dynamic";
-
-export default async function RankerLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+async function RankerContent({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   return (
-    <div className="min-h-screen bg-[#131313]">
-      <DesktopSidebar activeTab="journal" />
-
-      {/* Mobile header — hidden on desktop */}
-      <header className="lg:hidden bg-[#131313] top-0 sticky z-50">
-        <div className="flex justify-between items-center px-6 py-4 w-full">
-          <div className="flex items-center gap-4">
-            <Link href="/">
-              <span className="material-symbols-outlined text-[#ffbf00] cursor-pointer select-none">
-                arrow_back
-              </span>
-            </Link>
-            <h1 className="font-headline italic tracking-wide text-2xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.4)]">
-              Field Journal
-            </h1>
-          </div>
-          {user && <LogoutButton />}
+    <>
+      {/* Mobile header logout button (auth-dependent) */}
+      {user && (
+        <div className="lg:hidden absolute top-4 right-6 z-50">
+          <LogoutButton />
         </div>
-        <div className="bg-gradient-to-b from-[#20201f] to-transparent h-1" />
-      </header>
+      )}
 
       {/* Desktop: offset for sidebar, add logout to top-right */}
       <div className="lg:pl-[260px]">
@@ -71,6 +53,39 @@ export default async function RankerLayout({
           )}
         </div>
       </div>
+    </>
+  );
+}
+
+export default function RankerLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-[#131313]">
+      <DesktopSidebar activeTab="journal" />
+
+      {/* Mobile header — hidden on desktop */}
+      <header className="lg:hidden bg-[#131313] top-0 sticky z-50">
+        <div className="flex justify-between items-center px-6 py-4 w-full">
+          <div className="flex items-center gap-4">
+            <Link href="/">
+              <span className="material-symbols-outlined text-[#ffbf00] cursor-pointer select-none">
+                arrow_back
+              </span>
+            </Link>
+            <h1 className="font-headline italic tracking-wide text-2xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.4)]">
+              Field Journal
+            </h1>
+          </div>
+        </div>
+        <div className="bg-gradient-to-b from-[#20201f] to-transparent h-1" />
+      </header>
+
+      <Suspense>
+        <RankerContent>{children}</RankerContent>
+      </Suspense>
 
       <BottomNav activeTab="journal" />
     </div>
