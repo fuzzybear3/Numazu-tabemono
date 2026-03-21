@@ -5,7 +5,6 @@ import { AddRestaurantForm } from "@/components/admin/AddRestaurantForm";
 import { RankingManager } from "@/components/admin/RankingManager";
 import { VisitFormWithPicker } from "@/components/admin/VisitFormWithPicker";
 import { RankerTabs } from "@/components/admin/RankerTabs";
-import { BottomNav } from "@/components/BottomNav";
 
 async function VisitContent() {
   const supabase = await createClient();
@@ -31,30 +30,26 @@ async function VisitContent() {
 
 export default function RankerPage() {
   return (
-    <>
-      <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 pb-32">
-        <RankerTabs
-          visitContent={
-            <Suspense fallback={null}>
-              <VisitContent />
-            </Suspense>
-          }
-          addContent={<AddRestaurantForm />}
-          rankingsContent={
-            <Suspense
-              fallback={
-                <p className="text-[#d4c5ab] font-body italic">
-                  Loading rankings...
-                </p>
-              }
-            >
-              <RankingManager />
-            </Suspense>
-          }
-        />
-      </div>
-
-      <BottomNav activeTab="journal" />
-    </>
+    <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 pb-32">
+      <RankerTabs
+        visitContent={
+          <Suspense fallback={null}>
+            <VisitContent />
+          </Suspense>
+        }
+        addContent={<AddRestaurantForm />}
+        rankingsContent={
+          <Suspense
+            fallback={
+              <p className="text-[#d4c5ab] font-body italic">
+                Loading rankings...
+              </p>
+            }
+          >
+            <RankingManager />
+          </Suspense>
+        }
+      />
+    </div>
   );
 }
