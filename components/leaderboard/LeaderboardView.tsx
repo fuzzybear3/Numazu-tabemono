@@ -81,6 +81,7 @@ function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
                 src={restaurant.cover_photo_url}
                 alt={restaurant.name}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
             ) : (
@@ -148,7 +149,7 @@ function BentoCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
       <article className="bg-[#20201f] rounded-xl overflow-hidden shadow-xl hover:translate-y-[-4px] transition-transform duration-300">
         <div className="relative h-64">
           {restaurant.cover_photo_url ? (
-            <Image src={restaurant.cover_photo_url} alt={restaurant.name} fill className="object-cover grayscale-[0.2] contrast-[1.1]" />
+            <Image src={restaurant.cover_photo_url} alt={restaurant.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover grayscale-[0.2] contrast-[1.1]" />
           ) : (
             <div className="w-full h-full bg-[#1c1b1b] flex items-center justify-center">
               <span className="text-7xl opacity-[0.04] font-headline select-none">食</span>
@@ -199,7 +200,7 @@ function SideCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
         <Link href={`/restaurant/${restaurant.id}`}>
           <div className="aspect-square rounded-lg overflow-hidden mb-6 relative cursor-pointer">
             {restaurant.cover_photo_url ? (
-              <Image src={restaurant.cover_photo_url} alt={restaurant.name} fill className="object-cover brightness-90 contrast-125" />
+              <Image src={restaurant.cover_photo_url} alt={restaurant.name} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover brightness-90 contrast-125" />
             ) : (
               <div className="w-full h-full bg-[#20201f] flex items-center justify-center">
                 <span className="text-5xl opacity-[0.04] font-headline select-none">食</span>
@@ -264,6 +265,7 @@ function ArchiveRow({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
                 src={restaurant.cover_photo_url}
                 alt={restaurant.name}
                 fill
+                sizes="40px"
                 className="object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all"
               />
             ) : (
@@ -299,7 +301,7 @@ function ArchiveRow({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
         </span>
         <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
           {restaurant.cover_photo_url ? (
-            <Image src={restaurant.cover_photo_url} alt={restaurant.name} fill className="object-cover grayscale opacity-60" />
+            <Image src={restaurant.cover_photo_url} alt={restaurant.name} fill sizes="32px" className="object-cover grayscale opacity-60" />
           ) : (
             <div className="w-full h-full bg-[#353535] flex items-center justify-center">
               <span className="material-symbols-outlined text-[#9c8f78] select-none" style={{ fontSize: "12px" }}>restaurant</span>
