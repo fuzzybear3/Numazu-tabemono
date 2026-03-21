@@ -9,10 +9,10 @@ interface Props {
 export function BottomNav({ activeTab }: Props) {
   return (
     <nav className="lg:hidden fixed bottom-0 w-full z-50 rounded-t-2xl bg-[#20201f]/90 backdrop-blur-xl border-t border-[#504532]/20 shadow-[0_-10px_40px_rgba(0,0,0,0.6)]">
-      <div className="flex justify-around items-center h-20 px-4">
+      <div className="flex items-center h-20">
         <Link
           href="/ranker"
-          className={`flex flex-col items-center justify-center transition-all duration-300 ${
+          className={`flex-1 flex flex-col items-center justify-center transition-all duration-300 ${
             activeTab === "journal"
               ? "text-[#ffbf00] scale-110"
               : "text-[#e5e2e1]/40 hover:text-[#ffe2ab]"
@@ -28,7 +28,7 @@ export function BottomNav({ activeTab }: Props) {
 
         <Link
           href="/"
-          className={`flex flex-col items-center justify-center transition-all duration-300 ${
+          className={`flex-1 flex flex-col items-center justify-center transition-all duration-300 ${
             activeTab === "rankings"
               ? "text-[#ffbf00] scale-110"
               : "text-[#e5e2e1]/40 hover:text-[#ffe2ab]"
@@ -51,7 +51,7 @@ export function BottomNav({ activeTab }: Props) {
 
         <Link
           href="/map"
-          className={`flex flex-col items-center justify-center transition-all duration-300 ${
+          className={`flex-1 flex flex-col items-center justify-center transition-all duration-300 ${
             activeTab === "map"
               ? "text-[#ffbf00] scale-110"
               : "text-[#e5e2e1]/40 hover:text-[#ffe2ab]"
