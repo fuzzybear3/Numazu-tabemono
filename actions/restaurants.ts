@@ -13,6 +13,7 @@ const CreateRestaurantSchema = z.object({
   lat:              z.coerce.number(),
   lng:              z.coerce.number(),
   cuisine_category: CuisineCategorySchema,
+  seat_count:       z.coerce.number().int().positive().optional(),
   cover_photo_url:  z.string().url().optional(),
 });
 
@@ -24,6 +25,7 @@ export async function createRestaurant(formData: FormData) {
     lat:              formData.get("lat"),
     lng:              formData.get("lng"),
     cuisine_category: formData.get("cuisine_category") || undefined,
+    seat_count:       formData.get("seat_count") || undefined,
     cover_photo_url:  formData.get("cover_photo_url") || undefined,
   });
 
@@ -38,6 +40,7 @@ export async function createRestaurant(formData: FormData) {
       lng:              parsed.lng,
       google_place_id:  parsed.place_id,
       cuisine_category: parsed.cuisine_category,
+      seat_count:       parsed.seat_count ?? null,
       cover_photo_url:  parsed.cover_photo_url ?? null,
     })
     .select("id")

@@ -184,6 +184,17 @@ export function AddRestaurantForm() {
       <input type="hidden" name="lng"      value={place?.lng ?? ""} />
 
       <div className="grid gap-1.5">
+        <Label htmlFor="seat_count">Seat count</Label>
+        <Input
+          id="seat_count"
+          name="seat_count"
+          type="number"
+          min={1}
+          placeholder="e.g. 12"
+        />
+      </div>
+
+      <div className="grid gap-1.5">
         <Label htmlFor="cuisine_category">Category</Label>
         <select
           id="cuisine_category"
