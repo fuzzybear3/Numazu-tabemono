@@ -36,9 +36,14 @@ async function RestaurantContent({ params }: { params: Promise<{ id: string }> }
   const rankPosition = rankingResult.data?.rank_position;
   const visits = (visitsResult.data ?? []) as Visit[];
 
+  const fallbackPhotoUrl =
+    restaurant.cover_photo_url ??
+    visits.find((v) => v.food_photo_url)?.food_photo_url ??
+    null;
+
   return (
     <div className="space-y-8">
-      <RestaurantHeader restaurant={restaurant} rankPosition={rankPosition} />
+      <RestaurantHeader restaurant={restaurant} rankPosition={rankPosition} fallbackPhotoUrl={fallbackPhotoUrl} />
       <div>
         <h2 className="text-xl font-semibold mb-4">Visit history</h2>
         <VisitGallery visits={visits} />

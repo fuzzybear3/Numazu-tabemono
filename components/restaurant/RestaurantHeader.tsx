@@ -4,15 +4,17 @@ import { Restaurant } from "@/types";
 interface Props {
   restaurant: Restaurant;
   rankPosition?: number;
+  fallbackPhotoUrl?: string | null;
 }
 
-export function RestaurantHeader({ restaurant, rankPosition }: Props) {
+export function RestaurantHeader({ restaurant, rankPosition, fallbackPhotoUrl }: Props) {
+  const photoUrl = restaurant.cover_photo_url ?? fallbackPhotoUrl;
   return (
     <div className="space-y-4">
-      {restaurant.cover_photo_url && (
+      {photoUrl && (
         <div className="relative h-56 w-full rounded-xl overflow-hidden">
           <Image
-            src={restaurant.cover_photo_url}
+            src={photoUrl}
             alt={restaurant.name}
             fill
             className="object-cover"
