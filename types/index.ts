@@ -8,6 +8,7 @@ export interface Restaurant {
   cuisine_type: string | null;
   cuisine_category: 'ramen' | 'tonkatsu' | 'sushi' | 'other';
   cover_photo_url: string | null;
+  seat_count: number | null;
   created_at: string;
 }
 

@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import { RankedRestaurant } from "@/types";
 import { RestaurantCard } from "./RestaurantCard";
 
-export type RankedRestaurantWithVotes = RankedRestaurant & { voter_count: number };
+export type RankedRestaurantWithVotes = RankedRestaurant & {
+  voter_count: number;
+  visit_note?: string | null;
+};
 
 type Filter = "all" | "ramen" | "sushi" | "other";
 export type View = "cards" | "list";
@@ -103,12 +106,18 @@ function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
                 {restaurant.cuisine_type ?? restaurant.cuisine_category}
               </p>
             </div>
-            {restaurant.address && (
+            {restaurant.visit_note && (
               <div className="space-y-3">
-                <h4 className="font-label text-xs uppercase tracking-[0.2em] text-[#9c8f78]">Location</h4>
+                <h4 className="font-label text-xs uppercase tracking-[0.2em] text-[#9c8f78]">Tasting note</h4>
                 <div className="p-5 bg-[#0e0e0e]/50 rounded-lg border-l-2 border-[#ffbf00]/30 italic text-[#d4c5ab] font-body text-sm leading-relaxed">
-                  {restaurant.address}
+                  {restaurant.visit_note}
                 </div>
+              </div>
+            )}
+            {restaurant.seat_count && (
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#9c8f78] select-none text-sm">chair</span>
+                <span className="font-label text-xs text-[#d4c5ab]/70">{restaurant.seat_count} seats</span>
               </div>
             )}
             <div className="flex items-center justify-between pt-2">
@@ -154,14 +163,22 @@ function BentoCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
         </div>
         <div className="p-8 space-y-4">
           <h3 className="font-headline text-2xl text-[#e5e2e1]">{restaurant.name}</h3>
-          {restaurant.address && (
-            <p className="text-[#d4c5ab] italic font-body leading-relaxed text-sm">{restaurant.address}</p>
+          {restaurant.visit_note && (
+            <p className="text-[#d4c5ab] italic font-body leading-relaxed text-sm line-clamp-2">{restaurant.visit_note}</p>
           )}
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#802918] text-sm select-none">person_pin</span>
-            <span className="font-label text-xs text-[#d4c5ab]/70 italic">
-              {restaurant.voter_count === 1 ? "1 ranker" : `${restaurant.voter_count} rankers`}
-            </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#802918] text-sm select-none">person_pin</span>
+              <span className="font-label text-xs text-[#d4c5ab]/70 italic">
+                {restaurant.voter_count === 1 ? "1 ranker" : `${restaurant.voter_count} rankers`}
+              </span>
+            </div>
+            {restaurant.seat_count && (
+              <div className="flex items-center gap-1">
+                <span className="material-symbols-outlined text-[#9c8f78] select-none" style={{ fontSize: "14px" }}>chair</span>
+                <span className="font-label text-xs text-[#d4c5ab]/60">{restaurant.seat_count}</span>
+              </div>
+            )}
           </div>
         </div>
       </article>
@@ -192,8 +209,14 @@ function SideCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
         </Link>
         <div className="space-y-4">
           <span className="font-label text-[10px] uppercase text-[#ffbf00] tracking-widest font-bold">Master's Choice</span>
-          {restaurant.address && (
-            <p className="text-[#d4c5ab] italic font-body text-sm">{restaurant.address}</p>
+          {restaurant.visit_note && (
+            <p className="text-[#d4c5ab] italic font-body text-sm line-clamp-3">{restaurant.visit_note}</p>
+          )}
+          {restaurant.seat_count && (
+            <div className="flex items-center gap-1">
+              <span className="material-symbols-outlined text-[#9c8f78] select-none" style={{ fontSize: "14px" }}>chair</span>
+              <span className="font-label text-xs text-[#d4c5ab]/60">{restaurant.seat_count} seats</span>
+            </div>
           )}
           <div className="pt-4 border-t border-[#504532]/10 flex items-center justify-between">
             <VoterDots count={restaurant.voter_count} />

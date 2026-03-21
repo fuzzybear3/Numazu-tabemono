@@ -31,12 +31,31 @@ export function RestaurantHeader({ restaurant, rankPosition, fallbackPhotoUrl }:
           )}
           <h1 className="text-3xl font-bold">{restaurant.name}</h1>
         </div>
-        <p className="text-muted-foreground mt-1">{restaurant.address}</p>
-        {restaurant.cuisine_type && (
-          <span className="inline-block mt-2 text-sm px-3 py-1 rounded-full bg-secondary text-secondary-foreground">
-            {restaurant.cuisine_type}
-          </span>
-        )}
+        <div className="flex items-center justify-between gap-3 mt-1">
+          <p className="text-muted-foreground text-sm">{restaurant.address}</p>
+          <a
+            href={`https://maps.google.com?q=${restaurant.lat},${restaurant.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#353535] text-[#ffe2ab] font-label text-xs tracking-wide hover:bg-[#ffbf00] hover:text-[#402d00] transition-all duration-300"
+          >
+            <span className="material-symbols-outlined select-none" style={{ fontSize: "16px" }}>navigation</span>
+            Navigate
+          </a>
+        </div>
+        <div className="flex items-center gap-3 mt-2 flex-wrap">
+          {restaurant.cuisine_type && (
+            <span className="text-sm px-3 py-1 rounded-full bg-secondary text-secondary-foreground">
+              {restaurant.cuisine_type}
+            </span>
+          )}
+          {restaurant.seat_count && (
+            <span className="text-sm text-muted-foreground flex items-center gap-1">
+              <span className="material-symbols-outlined select-none" style={{ fontSize: "16px" }}>chair</span>
+              {restaurant.seat_count} seats
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
