@@ -36,9 +36,10 @@ async function RestaurantContent({ params }: { params: Promise<{ id: string }> }
   const rankPosition = rankingResult.data?.rank_position;
   const visits = (visitsResult.data ?? []) as Visit[];
 
+  const photos = visits.filter((v) => v.food_photo_url);
   const fallbackPhotoUrl =
     restaurant.cover_photo_url ??
-    visits.find((v) => v.food_photo_url)?.food_photo_url ??
+    photos[Math.floor(Math.random() * photos.length)]?.food_photo_url ??
     null;
 
   return (

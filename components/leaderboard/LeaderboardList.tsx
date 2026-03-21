@@ -19,7 +19,8 @@ export async function LeaderboardList({
       voter_count,
       restaurants (
         id, name, address, lat, lng,
-        google_place_id, cuisine_type, cuisine_category, cover_photo_url, created_at
+        google_place_id, cuisine_type, cuisine_category, cover_photo_url, created_at,
+        visits ( food_photo_url )
       )
     `,
     )
@@ -43,11 +44,24 @@ export async function LeaderboardList({
 
   const ranked: RankedRestaurantWithVotes[] = data
     .filter((row) => row.restaurants)
-    .map((row, index) => ({
-      ...(row.restaurants as unknown as RankedRestaurant),
-      rank_position: index + 1,
-      voter_count: row.voter_count ?? 1,
-    }));
+    .map((row, index) => {
+      const restaurant = row.restaurants as unknown as RankedRestaurant & {
+        visits?: { food_photo_url: string | null }[];
+      };
+      const fallbackPhotoUrl =
+        restaurant.cover_photo_url ??
+        (() => {
+          const photos = restaurant.visits?.filter((v) => v.food_photo_url) ?? [];
+          return photos[Math.floor(Math.random() * photos.length)]?.food_photo_url;
+        })() ??
+        null;
+      return {
+        ...restaurant,
+        rank_position: index + 1,
+        voter_count: row.voter_count ?? 1,
+        cover_photo_url: fallbackPhotoUrl,
+      };
+    });
 
   return <LeaderboardView restaurants={ranked} initialView={initialView} />;
 }
