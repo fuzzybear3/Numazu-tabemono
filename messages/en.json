@@ -146,6 +146,8 @@
     "saving": "Saving...",
     "saveNewPassword": "Save new password",
     "newPasswordDescription": "Please enter your new password below.",
+    "setPassword": "Set Your Password",
+    "setPasswordDescription": "Welcome! Please set a password for your account.",
     "signUpSuccess": "Thank you for signing up!",
     "signUpSuccessDescription": "Check your email to confirm",
     "signUpSuccessBody": "You've successfully signed up. Please check your email to confirm your account before signing in.",

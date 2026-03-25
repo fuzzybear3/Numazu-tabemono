@@ -146,6 +146,8 @@
     "saving": "保存中...",
     "saveNewPassword": "新しいパスワードを保存",
     "newPasswordDescription": "新しいパスワードを入力してください。",
+    "setPassword": "パスワードを設定",
+    "setPasswordDescription": "ようこそ！アカウントのパスワードを設定してください。",
     "signUpSuccess": "ご登録ありがとうございます！",
     "signUpSuccessDescription": "メールで確認してください",
     "signUpSuccessBody": "登録が完了しました。サインインする前にメールでアカウントを確認してください。",

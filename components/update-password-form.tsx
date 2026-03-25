@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function UpdatePasswordForm({
@@ -21,6 +21,8 @@ export function UpdatePasswordForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const t = useTranslations("auth");
+  const searchParams = useSearchParams();
+  const isInvite = searchParams.get("type") === "invite";
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +49,9 @@ export function UpdatePasswordForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">{t("resetPassword")}</CardTitle>
+          <CardTitle className="text-2xl">{isInvite ? t("setPassword") : t("resetPassword")}</CardTitle>
           <CardDescription>
-            {t("newPasswordDescription")}
+            {isInvite ? t("setPasswordDescription") : t("newPasswordDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent>
