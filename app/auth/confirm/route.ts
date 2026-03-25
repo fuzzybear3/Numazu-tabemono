@@ -14,7 +14,10 @@ export async function GET(request: NextRequest) {
 
   if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({ type, token_hash });
-    if (!error) redirect(next);
+    if (!error) {
+      if (type === "invite") redirect("/auth/update-password");
+      redirect(next);
+    }
     redirect(`/auth/error?error=${error?.message}`);
   }
 
