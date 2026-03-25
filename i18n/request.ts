@@ -1,9 +1,15 @@
 import { getRequestConfig } from "next-intl/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export default getRequestConfig(async () => {
   const cookieStore = await cookies();
-  const locale = cookieStore.get("locale")?.value ?? "en";
+  const cookieLocale = cookieStore.get("locale")?.value;
+
+  const acceptLanguage = (await headers()).get("accept-language") ?? "";
+  const browserPrefersJapanese = acceptLanguage.toLowerCase().includes("ja");
+  const fallback = browserPrefersJapanese ? "ja" : "en";
+
+  const locale = cookieLocale ?? fallback;
   const validLocale = ["en", "ja"].includes(locale) ? locale : "en";
 
   return {
