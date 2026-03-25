@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { createVisit } from "@/actions/visits";
 import { uploadFoodPhoto } from "@/lib/storage";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,17 @@ interface Props {
 
 export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props) {
   const router = useRouter();
+  const t = useTranslations("addVisit");
+
+  const chipLabels: Record<string, string> = {
+    "Shoyu Ramen":   t("chipShoyuRamen"),
+    "Miso Ramen":    t("chipMisoRamen"),
+    "Shio Ramen":    t("chipShioRamen"),
+    "Tonkotsu Ramen": t("chipTonkotsuRamen"),
+    "Tantanmen":     t("chipTantanmen"),
+    "Tsukemen":      t("chipTsukemen"),
+    "Tonkatsu":      t("chipTonkatsu"),
+  };
   const [isPending, startTransition] = useTransition();
   const [error, setError]           = useState<string | null>(null);
   const [success, setSuccess]       = useState(false);
@@ -39,7 +51,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
     const file = fileInput?.files?.[0];
 
     if (chips && !selectedItem) {
-      setError("Please select a ramen type.");
+      setError(t("selectRamenType"));
       return;
     }
 
@@ -60,7 +72,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
         router.refresh();
       } catch (err) {
         setUploading(false);
-        setError(err instanceof Error ? err.message : "Failed to log visit");
+        setError(err instanceof Error ? err.message : t("failedToLog"));
       }
     });
   }
@@ -68,7 +80,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-1.5">
-        <Label htmlFor="visited_at">Visit date</Label>
+        <Label htmlFor="visited_at">{t("visitDate")}</Label>
         <Input
           id="visited_at"
           name="visited_at"
@@ -79,7 +91,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
       </div>
 
       <div className="grid gap-1.5">
-        <Label>Menu item {chips ? <span className="text-destructive">*</span> : "(optional)"}</Label>
+        <Label>{t("menuItemRequired")} {chips ? <span className="text-destructive">*</span> : t("menuItemOptional")}</Label>
         {chips ? (
           <div className="flex flex-wrap gap-2">
             {chips.map((chip) => (
@@ -93,7 +105,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
                     : "border-input bg-background hover:bg-muted"
                 }`}
               >
-                {chip}
+                {chipLabels[chip] ?? chip}
               </button>
             ))}
             <input type="hidden" name="menu_item" value={selectedItem ?? ""} />
@@ -102,28 +114,28 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
           <Input
             id="menu_item"
             name="menu_item"
-            placeholder="e.g. Toro nigiri"
+            placeholder={t("menuItemPlaceholder")}
           />
         )}
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="notes">Notes (optional)</Label>
-        <Input id="notes" name="notes" placeholder="How was it?" />
+        <Label htmlFor="notes">{t("notes")}</Label>
+        <Input id="notes" name="notes" placeholder={t("notesPlaceholder")} />
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="food_photo">Food photo (optional)</Label>
+        <Label htmlFor="food_photo">{t("foodPhoto")}</Label>
         <Input id="food_photo" type="file" accept="image/*" />
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
       {success && (
-        <p className="text-sm text-green-600">Visit logged successfully!</p>
+        <p className="text-sm text-green-600">{t("success")}</p>
       )}
 
       <Button type="submit" disabled={isPending || uploading}>
-        {uploading ? "Uploading photo..." : isPending ? "Saving..." : "Log visit"}
+        {uploading ? t("uploadingPhoto") : isPending ? t("saving") : t("logVisit")}
       </Button>
     </form>
   );

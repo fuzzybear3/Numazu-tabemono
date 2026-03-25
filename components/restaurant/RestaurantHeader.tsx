@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Restaurant } from "@/types";
 
 interface Props {
@@ -7,7 +8,8 @@ interface Props {
   fallbackPhotoUrl?: string | null;
 }
 
-export function RestaurantHeader({ restaurant, rankPosition, fallbackPhotoUrl }: Props) {
+export async function RestaurantHeader({ restaurant, rankPosition, fallbackPhotoUrl }: Props) {
+  const t = await getTranslations("restaurantDetail");
   const photoUrl = restaurant.cover_photo_url ?? fallbackPhotoUrl;
   return (
     <div className="space-y-4">
@@ -40,7 +42,7 @@ export function RestaurantHeader({ restaurant, rankPosition, fallbackPhotoUrl }:
             className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#353535] text-[#ffe2ab] font-label text-xs tracking-wide hover:bg-[#ffbf00] hover:text-[#402d00] transition-all duration-300"
           >
             <span className="material-symbols-outlined select-none" style={{ fontSize: "16px" }}>navigation</span>
-            Navigate
+            {t("navigate")}
           </a>
         </div>
         <div className="flex items-center gap-3 mt-2 flex-wrap">
@@ -52,7 +54,7 @@ export function RestaurantHeader({ restaurant, rankPosition, fallbackPhotoUrl }:
           {restaurant.seat_count && (
             <span className="text-sm text-muted-foreground flex items-center gap-1">
               <span className="material-symbols-outlined select-none" style={{ fontSize: "16px" }}>chair</span>
-              {restaurant.seat_count} seats
+              {t("seats", { count: restaurant.seat_count })}
             </span>
           )}
         </div>

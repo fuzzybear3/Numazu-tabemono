@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 type ActiveTab = "journal" | "rankings" | "map";
 
@@ -8,22 +10,25 @@ interface Props {
   activeTab?: ActiveTab;
 }
 
-const navItems = [
-  {
-    tab: "rankings" as ActiveTab,
-    href: "/",
-    icon: "format_list_numbered",
-    label: "Rankings",
-  },
-  {
-    tab: "map" as ActiveTab,
-    href: "/map",
-    icon: "map",
-    label: "Map",
-  },
-];
-
 export function DesktopSidebar({ activeTab }: Props) {
+  const t = useTranslations("nav");
+  const locale = useLocale();
+
+  const navItems = [
+    {
+      tab: "rankings" as ActiveTab,
+      href: "/",
+      icon: "format_list_numbered",
+      label: t("rankings"),
+    },
+    {
+      tab: "map" as ActiveTab,
+      href: "/map",
+      icon: "map",
+      label: t("map"),
+    },
+  ];
+
   return (
     <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-[260px] bg-[#1c1b1b] border-r border-[#504532]/20 z-50">
       {/* Brand */}
@@ -78,7 +83,7 @@ export function DesktopSidebar({ activeTab }: Props) {
       <div className="mx-6 h-px bg-[#504532]/15 mb-4" />
 
       {/* Journal CTA */}
-      <div className="px-4 pb-8">
+      <div className="px-4 pb-4">
         <Link href="/ranker">
           <button
             className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-label text-sm tracking-wide transition-all duration-300 ${
@@ -97,9 +102,14 @@ export function DesktopSidebar({ activeTab }: Props) {
             >
               edit_note
             </span>
-            Field Journal
+            {t("fieldJournal")}
           </button>
         </Link>
+      </div>
+
+      {/* Language toggle */}
+      <div className="px-4 pb-8 flex justify-end">
+        <LanguageToggle currentLocale={locale} />
       </div>
     </aside>
   );

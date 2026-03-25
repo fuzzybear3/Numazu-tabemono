@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { RankedRestaurant } from "@/types";
 import { Button } from "@/components/ui/button";
 
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export function RestaurantSidebar({ restaurant, onClose }: Props) {
+  const t = useTranslations("map");
   if (!restaurant) return null;
 
   return (
@@ -20,7 +22,7 @@ export function RestaurantSidebar({ restaurant, onClose }: Props) {
         <button
           onClick={onClose}
           className="text-muted-foreground hover:text-foreground text-xl leading-none ml-2"
-          aria-label="Close"
+          aria-label={t("close")}
         >
           ✕
         </button>
@@ -51,7 +53,7 @@ export function RestaurantSidebar({ restaurant, onClose }: Props) {
 
       <div className="p-4 border-t border-border">
         <Button asChild className="w-full">
-          <Link href={`/restaurant/${restaurant.id}`}>View details</Link>
+          <Link href={`/restaurant/${restaurant.id}`}>{t("viewDetails")}</Link>
         </Button>
       </div>
     </div>

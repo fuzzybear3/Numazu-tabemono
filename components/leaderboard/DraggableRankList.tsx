@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   DndContext,
   closestCenter,
@@ -71,6 +72,7 @@ export function DraggableRankList({ initialRestaurants }: Props) {
   const [restaurants, setRestaurants] = useState(initialRestaurants);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const t = useTranslations("draggableRankList");
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -97,7 +99,7 @@ export function DraggableRankList({ initialRestaurants }: Props) {
       await reorderRankings(restaurants.map((r) => r.id));
       setSaved(true);
     } catch (e) {
-      alert("Failed to save order. Please try again.");
+      alert(t("failedToSave"));
     } finally {
       setSaving(false);
     }
@@ -127,7 +129,7 @@ export function DraggableRankList({ initialRestaurants }: Props) {
       </DndContext>
 
       <Button onClick={handleSave} disabled={saving}>
-        {saving ? "Saving..." : saved ? "Saved!" : "Save order"}
+        {saving ? t("saving") : saved ? t("saved") : t("saveOrder")}
       </Button>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
 import { AddVisitForm } from "./AddVisitForm";
 import { Restaurant } from "@/types";
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export function VisitFormWithPicker({ restaurants }: Props) {
+  const t = useTranslations("visitFormPicker");
   const [selectedId, setSelectedId] = useState(restaurants[0]?.id ?? "");
 
   const selected = restaurants.find((r) => r.id === selectedId);
@@ -17,7 +19,7 @@ export function VisitFormWithPicker({ restaurants }: Props) {
   return (
     <div className="space-y-4">
       <div className="grid gap-1.5">
-        <Label htmlFor="restaurant-picker">Restaurant</Label>
+        <Label htmlFor="restaurant-picker">{t("restaurant")}</Label>
         <select
           id="restaurant-picker"
           value={selectedId}

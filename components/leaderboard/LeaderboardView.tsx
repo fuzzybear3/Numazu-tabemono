@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { RankedRestaurant } from "@/types";
 import { RestaurantCard } from "./RestaurantCard";
 
@@ -71,6 +72,7 @@ function VoterDots({ count }: { count: number }) {
 // ─── Cards view components ───────────────────────────────────────────────────
 
 function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
+  const t = useTranslations("leaderboard");
   return (
     <article className="md:col-span-12 group">
       <div className="relative bg-[#20201f] rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
@@ -100,7 +102,7 @@ function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
           <div className="p-8 md:p-12 flex flex-col justify-center space-y-6">
             <div className="space-y-2">
               <span className="text-[#ffbf00] font-label text-xs uppercase tracking-widest font-bold">
-                Recommended Quest
+                {t("recommendedQuest")}
               </span>
               <h3 className="font-headline text-4xl text-[#e5e2e1]">{restaurant.name}</h3>
               <p className="text-[#d4c5ab]/80 italic font-body text-lg">
@@ -109,7 +111,7 @@ function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
             </div>
             {restaurant.visit_note && (
               <div className="space-y-3">
-                <h4 className="font-label text-xs uppercase tracking-[0.2em] text-[#9c8f78]">Tasting note</h4>
+                <h4 className="font-label text-xs uppercase tracking-[0.2em] text-[#9c8f78]">{t("tastingNote")}</h4>
                 <div className="p-5 bg-[#0e0e0e]/50 rounded-lg border-l-2 border-[#ffbf00]/30 italic text-[#d4c5ab] font-body text-sm leading-relaxed">
                   {restaurant.visit_note}
                 </div>
@@ -118,14 +120,14 @@ function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
             {restaurant.seat_count && (
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#9c8f78] select-none text-sm">chair</span>
-                <span className="font-label text-xs text-[#d4c5ab]/70">{restaurant.seat_count} seats</span>
+                <span className="font-label text-xs text-[#d4c5ab]/70">{t("seats", { count: restaurant.seat_count })}</span>
               </div>
             )}
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-3">
                 <VoterDots count={restaurant.voter_count} />
                 <span className="font-label text-xs text-[#d4c5ab]/60">
-                  {restaurant.voter_count === 1 ? "1 ranker" : `${restaurant.voter_count} rankers`}
+                  {restaurant.voter_count === 1 ? t("ranker") : t("rankers", { count: restaurant.voter_count })}
                 </span>
               </div>
               <Link href={`/restaurant/${restaurant.id}`}>
@@ -142,6 +144,7 @@ function HeroCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
 }
 
 function BentoCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
+  const t = useTranslations("leaderboard");
   const badgeStyle =
     restaurant.rank_position === 2 ? "bg-[#802918] text-[#ff9a85]" : "bg-[#ecc54b] text-[#675200]";
   return (
@@ -171,7 +174,7 @@ function BentoCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#802918] text-sm select-none">person_pin</span>
               <span className="font-label text-xs text-[#d4c5ab]/70 italic">
-                {restaurant.voter_count === 1 ? "1 ranker" : `${restaurant.voter_count} rankers`}
+                {restaurant.voter_count === 1 ? t("ranker") : t("rankers", { count: restaurant.voter_count })}
               </span>
             </div>
             {restaurant.seat_count && (
@@ -188,6 +191,7 @@ function BentoCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
 }
 
 function SideCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
+  const t = useTranslations("leaderboard");
   return (
     <div className="md:col-span-5">
       <div className="bg-[#1c1b1b] p-8 rounded-xl border-l border-[#504532]/20">
@@ -209,14 +213,14 @@ function SideCard({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
           </div>
         </Link>
         <div className="space-y-4">
-          <span className="font-label text-[10px] uppercase text-[#ffbf00] tracking-widest font-bold">Master's Choice</span>
+          <span className="font-label text-[10px] uppercase text-[#ffbf00] tracking-widest font-bold">{t("mastersChoice")}</span>
           {restaurant.visit_note && (
             <p className="text-[#d4c5ab] italic font-body text-sm line-clamp-3">{restaurant.visit_note}</p>
           )}
           {restaurant.seat_count && (
             <div className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[#9c8f78] select-none" style={{ fontSize: "14px" }}>chair</span>
-              <span className="font-label text-xs text-[#d4c5ab]/60">{restaurant.seat_count} seats</span>
+              <span className="font-label text-xs text-[#d4c5ab]/60">{t("seats", { count: restaurant.seat_count })}</span>
             </div>
           )}
           <div className="pt-4 border-t border-[#504532]/10 flex items-center justify-between">
@@ -329,6 +333,7 @@ function ArchiveRow({ restaurant }: { restaurant: RankedRestaurantWithVotes }) {
 
 export function LeaderboardView({ restaurants, initialView = "list" }: Props) {
   const router = useRouter();
+  const t = useTranslations("leaderboard");
   const [filter, setFilter] = useState<Filter>("all");
   const [view, setView] = useState<View>(initialView);
 
@@ -352,26 +357,34 @@ export function LeaderboardView({ restaurants, initialView = "list" }: Props) {
       {/* Controls row */}
       <div className="flex items-center gap-4 flex-wrap">
         <div className="flex items-center gap-2 p-1 bg-[#1c1b1b] rounded-xl">
-          {(["all", "ramen", "sushi", "other"] as Filter[]).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-5 py-2 rounded-lg font-label text-sm transition-colors ${
-                filter === f
-                  ? "bg-[#ffbf00] text-[#402d00] font-bold shadow-lg"
-                  : "text-[#d4c5ab] hover:text-[#ffe2ab]"
-              }`}
-            >
-              {f.charAt(0).toUpperCase() + f.slice(1)}
-            </button>
-          ))}
+          {(["all", "ramen", "sushi", "other"] as Filter[]).map((f) => {
+            const filterLabel: Record<Filter, string> = {
+              all: t("filterAll"),
+              ramen: t("filterRamen"),
+              sushi: t("filterSushi"),
+              other: t("filterOther"),
+            };
+            return (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-5 py-2 rounded-lg font-label text-sm transition-colors ${
+                  filter === f
+                    ? "bg-[#ffbf00] text-[#402d00] font-bold shadow-lg"
+                    : "text-[#d4c5ab] hover:text-[#ffe2ab]"
+                }`}
+              >
+                {filterLabel[f]}
+              </button>
+            );
+          })}
         </div>
 
         {/* View toggle */}
         <div className="flex items-center gap-1 p-1 bg-[#1c1b1b] rounded-xl ml-auto">
           <button
             onClick={() => switchView("cards")}
-            title="Cards view"
+            title={t("cardsView")}
             className={`p-2 rounded-lg transition-colors ${
               view === "cards"
                 ? "bg-[#ffbf00]/10 text-[#ffbf00]"
@@ -384,7 +397,7 @@ export function LeaderboardView({ restaurants, initialView = "list" }: Props) {
           </button>
           <button
             onClick={() => switchView("list")}
-            title="List view"
+            title={t("listView")}
             className={`p-2 rounded-lg transition-colors ${
               view === "list"
                 ? "bg-[#ffbf00]/10 text-[#ffbf00]"
@@ -400,7 +413,7 @@ export function LeaderboardView({ restaurants, initialView = "list" }: Props) {
 
       {ranked.length === 0 && (
         <p className="text-[#d4c5ab] text-center py-12 font-body italic">
-          No restaurants in this category yet.
+          {t("noRestaurantsInCategory")}
         </p>
       )}
 
@@ -431,7 +444,7 @@ export function LeaderboardView({ restaurants, initialView = "list" }: Props) {
             <div className="space-y-0.5">
               <div className="pb-3 border-b border-[#504532]/10 mb-2">
                 <span className="font-label text-[10px] uppercase tracking-[0.3em] text-[#d4c5ab]/30">
-                  — Further down the scroll —
+                  {t("furtherDownScroll")}
                 </span>
               </div>
               {rest.map((r) => (

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { RankedRestaurant } from "@/types";
 import { MapView } from "@/components/map/MapView";
@@ -32,7 +33,8 @@ async function MapContent() {
   return <MapView restaurants={restaurants} />;
 }
 
-export default function MapPage() {
+export default async function MapPage() {
+  const t = await getTranslations("map");
   return (
     <div className="h-screen flex bg-[#131313]">
       <DesktopSidebar activeTab="map" />
@@ -47,7 +49,7 @@ export default function MapPage() {
             href="/"
             className="text-sm text-[#d4c5ab] hover:text-[#ffe2ab] transition-colors font-label"
           >
-            Rankings
+            {t("rankings")}
           </Link>
         </nav>
 
@@ -56,7 +58,7 @@ export default function MapPage() {
           <Suspense
             fallback={
               <div className="flex items-center justify-center h-full text-[#d4c5ab] font-body italic">
-                Loading map...
+                {t("loading")}
               </div>
             }
           >

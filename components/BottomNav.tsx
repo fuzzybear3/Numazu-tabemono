@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface Props {
   activeTab?: "journal" | "rankings" | "map";
 }
 
 export function BottomNav({ activeTab }: Props) {
+  const t = useTranslations("nav");
   return (
     <nav className="lg:hidden fixed bottom-0 w-full z-50 rounded-t-2xl bg-[#20201f]/90 backdrop-blur-xl border-t border-[#504532]/20 shadow-[0_-10px_40px_rgba(0,0,0,0.6)]">
       <div className="flex items-center h-20">
@@ -22,7 +24,7 @@ export function BottomNav({ activeTab }: Props) {
             edit_note
           </span>
           <span className="font-label text-[10px] uppercase tracking-widest">
-            Journal
+            {t("journal")}
           </span>
         </Link>
 
@@ -45,7 +47,7 @@ export function BottomNav({ activeTab }: Props) {
             format_list_numbered
           </span>
           <span className="font-label text-[10px] uppercase tracking-widest">
-            Rankings
+            {t("rankings")}
           </span>
         </Link>
 
@@ -61,7 +63,7 @@ export function BottomNav({ activeTab }: Props) {
             map
           </span>
           <span className="font-label text-[10px] uppercase tracking-widest">
-            Map
+            {t("map")}
           </span>
         </Link>
       </div>

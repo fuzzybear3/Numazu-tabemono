@@ -1,14 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 type Tab = "visit" | "add" | "rankings";
-
-const tabs: { id: Tab; label: string; icon: string }[] = [
-  { id: "visit", label: "Log Visit", icon: "edit_note" },
-  { id: "add", label: "Add Place", icon: "add_location_alt" },
-  { id: "rankings", label: "Rankings", icon: "reorder" },
-];
 
 interface Props {
   visitContent: React.ReactNode;
@@ -18,6 +13,13 @@ interface Props {
 
 export function RankerTabs({ visitContent, addContent, rankingsContent }: Props) {
   const [active, setActive] = useState<Tab>("visit");
+  const t = useTranslations("rankerTabs");
+
+  const tabs: { id: Tab; label: string; icon: string }[] = [
+    { id: "visit", label: t("logVisit"), icon: "edit_note" },
+    { id: "add", label: t("addPlace"), icon: "add_location_alt" },
+    { id: "rankings", label: t("rankings"), icon: "reorder" },
+  ];
 
   const content = { visit: visitContent, add: addContent, rankings: rankingsContent };
 

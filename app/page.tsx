@@ -1,14 +1,16 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { LeaderboardList } from "@/components/leaderboard/LeaderboardList";
 import { BottomNav } from "@/components/BottomNav";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
   searchParams: Promise<{ view?: string }>;
 }) {
+  const t = await getTranslations("home");
   return (
     <main className="min-h-screen bg-[#131313] selection:bg-[#ffbf00] selection:text-[#402d00]">
       {/* Noise overlay */}
@@ -41,14 +43,14 @@ export default function Home({
         <div className="max-w-5xl mx-auto px-6 pt-8 pb-32 lg:pb-12 space-y-12">
           <section>
             <h2 className="font-headline text-4xl md:text-5xl text-[#e5e2e1]">
-              Leaderboard
+              {t("leaderboard")}
             </h2>
           </section>
 
           <Suspense
             fallback={
               <div className="text-[#d4c5ab] text-center py-12 font-body italic">
-                Loading the scroll...
+                {t("loading")}
               </div>
             }
           >

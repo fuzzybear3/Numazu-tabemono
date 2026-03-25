@@ -1,0 +1,152 @@
+{
+  "nav": {
+    "journal": "Journal",
+    "rankings": "Rankings",
+    "map": "Map",
+    "fieldJournal": "Field Journal"
+  },
+  "home": {
+    "leaderboard": "Leaderboard",
+    "loading": "Loading the scroll..."
+  },
+  "leaderboard": {
+    "recommendedQuest": "Recommended Quest",
+    "tastingNote": "Tasting note",
+    "mastersChoice": "Master's Choice",
+    "filterAll": "All",
+    "filterRamen": "Ramen",
+    "filterSushi": "Sushi",
+    "filterOther": "Other",
+    "seats": "{count} seats",
+    "ranker": "1 ranker",
+    "rankers": "{count} rankers",
+    "noRestaurantsInCategory": "No restaurants in this category yet.",
+    "furtherDownScroll": "— Further down the scroll —",
+    "cardsView": "Cards view",
+    "listView": "List view"
+  },
+  "ranker": {
+    "title": "Field Journal",
+    "rankersOnly": "Rankers Only",
+    "signInMessage": "You need to be signed in to log visits and manage rankings.",
+    "signIn": "Sign in",
+    "noRestaurantsYet": "No restaurants yet. Add one first.",
+    "loadingRankings": "Loading rankings..."
+  },
+  "rankerTabs": {
+    "logVisit": "Log Visit",
+    "addPlace": "Add Place",
+    "rankings": "Rankings"
+  },
+  "addRestaurant": {
+    "searchLabel": "Search restaurant",
+    "searchPlaceholder": "e.g. Sushiro Numazu",
+    "or": "or",
+    "useMyLocation": "📍 Use my current location",
+    "gettingLocation": "Getting location...",
+    "geolocationUnsupported": "Geolocation is not supported by your browser.",
+    "locationDenied": "Location access denied. Please allow location in your browser.",
+    "locationFailed": "Could not get your location. Try again.",
+    "restaurantName": "Restaurant name",
+    "restaurantNamePlaceholder": "e.g. Ramen Hyaku-shiki",
+    "addToOSM": "Also add to OpenStreetMap ↗",
+    "seatCount": "Seat count",
+    "seatCountPlaceholder": "e.g. 12",
+    "category": "Category",
+    "categoryOther": "Other",
+    "categoryRamen": "Ramen",
+    "categoryTonkatsu": "Tonkatsu",
+    "categorySushi": "Sushi",
+    "addRestaurant": "Add restaurant",
+    "adding": "Adding...",
+    "searchFirst": "Please search for a restaurant or use your location.",
+    "enterName": "Please enter the restaurant name.",
+    "success": "Restaurant added successfully!",
+    "failedToAdd": "Failed to add restaurant"
+  },
+  "addVisit": {
+    "visitDate": "Visit date",
+    "chipShoyuRamen": "Shoyu Ramen",
+    "chipMisoRamen": "Miso Ramen",
+    "chipShioRamen": "Shio Ramen",
+    "chipTonkotsuRamen": "Tonkotsu Ramen",
+    "chipTantanmen": "Tantanmen",
+    "chipTsukemen": "Tsukemen",
+    "chipTonkatsu": "Tonkatsu",
+    "menuItem": "Menu item",
+    "menuItemRequired": "Menu item",
+    "menuItemOptional": "(optional)",
+    "selectRamenType": "Please select a ramen type.",
+    "menuItemPlaceholder": "e.g. Toro nigiri",
+    "notes": "Notes (optional)",
+    "notesPlaceholder": "How was it?",
+    "foodPhoto": "Food photo (optional)",
+    "logVisit": "Log visit",
+    "saving": "Saving...",
+    "uploadingPhoto": "Uploading photo...",
+    "success": "Visit logged successfully!",
+    "failedToLog": "Failed to log visit"
+  },
+  "visitFormPicker": {
+    "restaurant": "Restaurant"
+  },
+  "rankingManager": {
+    "signInToManage": "Sign in to manage your rankings.",
+    "failedToLoad": "Failed to load rankings: {message}",
+    "noRestaurantsToRank": "No restaurants to rank yet."
+  },
+  "draggableRankList": {
+    "saveOrder": "Save order",
+    "saving": "Saving...",
+    "saved": "Saved!",
+    "failedToSave": "Failed to save order. Please try again."
+  },
+  "restaurantDetail": {
+    "visitHistory": "Visit history",
+    "noVisits": "No visits logged yet.",
+    "navigate": "Navigate",
+    "backToLeaderboard": "← Leaderboard",
+    "loading": "Loading...",
+    "appName": "Numazu Tabemono",
+    "seats": "{count} seats"
+  },
+  "map": {
+    "loading": "Loading map...",
+    "rankings": "Rankings",
+    "viewDetails": "View details",
+    "close": "Close"
+  },
+  "auth": {
+    "login": "Login",
+    "loginDescription": "Enter your email below to login to your account",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot your password?",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "signUpTitle": "Sign up",
+    "signUpDescription": "Create a new account",
+    "repeatPassword": "Repeat Password",
+    "creatingAccount": "Creating an account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "resetPassword": "Reset Your Password",
+    "resetPasswordDescription": "Type in your email and we'll send you a link to reset your password",
+    "sending": "Sending...",
+    "sendResetEmail": "Send reset email",
+    "checkEmail": "Check Your Email",
+    "checkEmailDescription": "Password reset instructions sent",
+    "checkEmailBody": "If you registered using your email and password, you will receive a password reset email.",
+    "newPassword": "New password",
+    "newPasswordPlaceholder": "New password",
+    "saving": "Saving...",
+    "saveNewPassword": "Save new password",
+    "newPasswordDescription": "Please enter your new password below.",
+    "signUpSuccess": "Thank you for signing up!",
+    "signUpSuccessDescription": "Check your email to confirm",
+    "signUpSuccessBody": "You've successfully signed up. Please check your email to confirm your account before signing in.",
+    "logout": "Logout",
+    "error": "An error occurred"
+  }
+}

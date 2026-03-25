@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { NominatimResult } from "@/lib/nominatim";
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export function PlacesAutocomplete({ onSelect }: Props) {
+  const t = useTranslations("addRestaurant");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<NominatimResult[]>([]);
   const [open, setOpen] = useState(false);
@@ -55,12 +57,12 @@ export function PlacesAutocomplete({ onSelect }: Props) {
 
   return (
     <div className="relative">
-      <Label htmlFor="places-search">Search restaurant</Label>
+      <Label htmlFor="places-search">{t("searchLabel")}</Label>
       <Input
         id="places-search"
         value={query}
         onChange={(e) => handleInput(e.target.value)}
-        placeholder="e.g. Sushiro Numazu"
+        placeholder={t("searchPlaceholder")}
         autoComplete="off"
         className="mt-1"
       />

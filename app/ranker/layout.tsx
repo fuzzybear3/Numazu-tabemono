@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { LogoutButton } from "@/components/logout-button";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { BottomNav } from "@/components/BottomNav";
@@ -7,6 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 
 async function RankerContent({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
+  const t = await getTranslations("ranker");
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -38,15 +40,15 @@ async function RankerContent({ children }: { children: React.ReactNode }) {
               </span>
               <div className="space-y-2">
                 <h2 className="font-headline text-3xl text-[#e5e2e1]">
-                  Rankers Only
+                  {t("rankersOnly")}
                 </h2>
                 <p className="font-body italic text-[#d4c5ab]">
-                  You need to be signed in to log visits and manage rankings.
+                  {t("signInMessage")}
                 </p>
               </div>
               <Link href="/auth/login">
                 <button className="px-8 py-3 rounded-xl bg-[#ffbf00] text-[#402d00] font-label font-bold text-sm tracking-wide shadow-[0_4px_16px_rgba(255,191,0,0.25)] hover:scale-105 active:scale-95 transition-all duration-300">
-                  Sign in
+                  {t("signIn")}
                 </button>
               </Link>
             </div>
@@ -57,11 +59,12 @@ async function RankerContent({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function RankerLayout({
+export default async function RankerLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = await getTranslations("ranker");
   return (
     <div className="min-h-screen bg-[#131313]">
       <DesktopSidebar activeTab="journal" />
@@ -76,7 +79,7 @@ export default function RankerLayout({
               </span>
             </Link>
             <h1 className="font-headline italic tracking-wide text-2xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.4)]">
-              Field Journal
+              {t("title")}
             </h1>
           </div>
         </div>

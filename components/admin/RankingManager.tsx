@@ -1,13 +1,15 @@
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { RankedRestaurant } from "@/types";
 import { DraggableRankList } from "@/components/leaderboard/DraggableRankList";
 
 export async function RankingManager() {
   const supabase = await createClient();
+  const t = await getTranslations("rankingManager");
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    return <p className="text-muted-foreground">Sign in to manage your rankings.</p>;
+    return <p className="text-muted-foreground">{t("signInToManage")}</p>;
   }
 
   const { data, error } = await supabase
@@ -27,7 +29,7 @@ export async function RankingManager() {
   if (error) {
     return (
       <p className="text-destructive">
-        Failed to load rankings: {error.message}
+        {t("failedToLoad", { message: error.message })}
       </p>
     );
   }
@@ -41,7 +43,7 @@ export async function RankingManager() {
 
   if (ranked.length === 0) {
     return (
-      <p className="text-muted-foreground">No restaurants to rank yet.</p>
+      <p className="text-muted-foreground">{t("noRestaurantsToRank")}</p>
     );
   }
 

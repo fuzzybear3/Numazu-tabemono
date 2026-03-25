@@ -63,4 +63,5 @@ export async function createVisit(formData: FormData) {
 
   revalidatePath(`/restaurant/${parsed.restaurant_id}`);
   revalidatePath("/ranker");
+  revalidatePath("/");
 }

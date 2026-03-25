@@ -1,0 +1,152 @@
+{
+  "nav": {
+    "journal": "ジャーナル",
+    "rankings": "ランキング",
+    "map": "マップ",
+    "fieldJournal": "フィールドノート"
+  },
+  "home": {
+    "leaderboard": "ランキング",
+    "loading": "読み込み中..."
+  },
+  "leaderboard": {
+    "recommendedQuest": "おすすめ",
+    "tastingNote": "テイスティングノート",
+    "mastersChoice": "マスターズチョイス",
+    "filterAll": "全て",
+    "filterRamen": "ラーメン",
+    "filterSushi": "寿司",
+    "filterOther": "その他",
+    "seats": "{count}席",
+    "ranker": "1人のランカー",
+    "rankers": "{count}人のランカー",
+    "noRestaurantsInCategory": "このカテゴリにまだ店はありません。",
+    "furtherDownScroll": "— さらに下へ —",
+    "cardsView": "カード表示",
+    "listView": "リスト表示"
+  },
+  "ranker": {
+    "title": "フィールドノート",
+    "rankersOnly": "ランカー専用",
+    "signInMessage": "訪問を記録しランキングを管理するにはサインインが必要です。",
+    "signIn": "サインイン",
+    "noRestaurantsYet": "まだ店がありません。まず追加してください。",
+    "loadingRankings": "ランキングを読み込み中..."
+  },
+  "rankerTabs": {
+    "logVisit": "訪問記録",
+    "addPlace": "場所を追加",
+    "rankings": "ランキング"
+  },
+  "addRestaurant": {
+    "searchLabel": "レストランを検索",
+    "searchPlaceholder": "例: スシロー沼津",
+    "or": "または",
+    "useMyLocation": "📍 現在地を使用",
+    "gettingLocation": "位置情報を取得中...",
+    "geolocationUnsupported": "お使いのブラウザは位置情報に対応していません。",
+    "locationDenied": "位置情報のアクセスが拒否されました。ブラウザの設定で許可してください。",
+    "locationFailed": "現在地を取得できませんでした。再試行してください。",
+    "restaurantName": "レストラン名",
+    "restaurantNamePlaceholder": "例: ラーメン百式",
+    "addToOSM": "OpenStreetMapにも追加 ↗",
+    "seatCount": "席数",
+    "seatCountPlaceholder": "例: 12",
+    "category": "カテゴリ",
+    "categoryOther": "その他",
+    "categoryRamen": "ラーメン",
+    "categoryTonkatsu": "とんかつ",
+    "categorySushi": "寿司",
+    "addRestaurant": "レストランを追加",
+    "adding": "追加中...",
+    "searchFirst": "レストランを検索するか、現在地を使用してください。",
+    "enterName": "レストラン名を入力してください。",
+    "success": "レストランを追加しました！",
+    "failedToAdd": "レストランの追加に失敗しました"
+  },
+  "addVisit": {
+    "visitDate": "訪問日",
+    "chipShoyuRamen": "醤油ラーメン",
+    "chipMisoRamen": "味噌ラーメン",
+    "chipShioRamen": "塩ラーメン",
+    "chipTonkotsuRamen": "豚骨ラーメン",
+    "chipTantanmen": "担々麺",
+    "chipTsukemen": "つけ麺",
+    "chipTonkatsu": "とんかつ",
+    "menuItem": "メニュー",
+    "menuItemRequired": "メニュー",
+    "menuItemOptional": "（任意）",
+    "selectRamenType": "ラーメンの種類を選択してください。",
+    "menuItemPlaceholder": "例: トロ握り",
+    "notes": "メモ（任意）",
+    "notesPlaceholder": "いかがでしたか？",
+    "foodPhoto": "料理の写真（任意）",
+    "logVisit": "訪問を記録",
+    "saving": "保存中...",
+    "uploadingPhoto": "写真をアップロード中...",
+    "success": "訪問を記録しました！",
+    "failedToLog": "訪問の記録に失敗しました"
+  },
+  "visitFormPicker": {
+    "restaurant": "レストラン"
+  },
+  "rankingManager": {
+    "signInToManage": "ランキングを管理するにはサインインしてください。",
+    "failedToLoad": "ランキングの読み込みに失敗しました: {message}",
+    "noRestaurantsToRank": "まだランキングするレストランがありません。"
+  },
+  "draggableRankList": {
+    "saveOrder": "順序を保存",
+    "saving": "保存中...",
+    "saved": "保存済み！",
+    "failedToSave": "順序の保存に失敗しました。再試行してください。"
+  },
+  "restaurantDetail": {
+    "visitHistory": "訪問履歴",
+    "noVisits": "まだ訪問の記録がありません。",
+    "navigate": "ナビ",
+    "backToLeaderboard": "← ランキングへ",
+    "loading": "読み込み中...",
+    "appName": "沼津食べ物",
+    "seats": "{count}席"
+  },
+  "map": {
+    "loading": "マップを読み込み中...",
+    "rankings": "ランキング",
+    "viewDetails": "詳細を見る",
+    "close": "閉じる"
+  },
+  "auth": {
+    "login": "ログイン",
+    "loginDescription": "メールアドレスを入力してログインしてください",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "loggingIn": "ログイン中...",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "signUp": "新規登録",
+    "signUpTitle": "新規登録",
+    "signUpDescription": "新しいアカウントを作成",
+    "repeatPassword": "パスワードを再入力",
+    "creatingAccount": "アカウントを作成中...",
+    "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
+    "passwordsDoNotMatch": "パスワードが一致しません",
+    "resetPassword": "パスワードをリセット",
+    "resetPasswordDescription": "メールアドレスを入力するとリセットリンクをお送りします",
+    "sending": "送信中...",
+    "sendResetEmail": "リセットメールを送信",
+    "checkEmail": "メールをご確認ください",
+    "checkEmailDescription": "パスワードリセットの案内を送信しました",
+    "checkEmailBody": "メールアドレスとパスワードで登録された場合、パスワードリセットメールが届きます。",
+    "newPassword": "新しいパスワード",
+    "newPasswordPlaceholder": "新しいパスワード",
+    "saving": "保存中...",
+    "saveNewPassword": "新しいパスワードを保存",
+    "newPasswordDescription": "新しいパスワードを入力してください。",
+    "signUpSuccess": "ご登録ありがとうございます！",
+    "signUpSuccessDescription": "メールで確認してください",
+    "signUpSuccessBody": "登録が完了しました。サインインする前にメールでアカウントを確認してください。",
+    "logout": "ログアウト",
+    "error": "エラーが発生しました"
+  }
+}

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Visit } from "@/types";
 import { VisitCard } from "./VisitCard";
 
@@ -5,11 +6,12 @@ interface Props {
   visits: Visit[];
 }
 
-export function VisitGallery({ visits }: Props) {
+export async function VisitGallery({ visits }: Props) {
+  const t = await getTranslations("restaurantDetail");
   if (visits.length === 0) {
     return (
       <p className="text-muted-foreground text-center py-8">
-        No visits logged yet.
+        {t("noVisits")}
       </p>
     );
   }

@@ -1,12 +1,15 @@
 import Image from "next/image";
+import { getLocale } from "next-intl/server";
 import { Visit } from "@/types";
 
 interface Props {
   visit: Visit;
 }
 
-export function VisitCard({ visit }: Props) {
-  const date = new Date(visit.visited_at).toLocaleDateString("en-US", {
+export async function VisitCard({ visit }: Props) {
+  const locale = await getLocale();
+  const dateLocale = locale === "ja" ? "ja-JP" : "en-US";
+  const date = new Date(visit.visited_at).toLocaleDateString(dateLocale, {
     year: "numeric",
     month: "long",
     day: "numeric",

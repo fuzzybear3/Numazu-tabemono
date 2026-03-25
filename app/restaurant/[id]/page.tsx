@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Restaurant, Visit } from "@/types";
 import { RestaurantHeader } from "@/components/restaurant/RestaurantHeader";
@@ -13,6 +14,7 @@ interface Props {
 async function RestaurantContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
+  const t = await getTranslations("restaurantDetail");
 
   const [restaurantResult, rankingResult, visitsResult] = await Promise.all([
     supabase.from("restaurants").select("*").eq("id", id).single(),
@@ -46,25 +48,26 @@ async function RestaurantContent({ params }: { params: Promise<{ id: string }> }
     <div className="space-y-8">
       <RestaurantHeader restaurant={restaurant} rankPosition={rankPosition} fallbackPhotoUrl={fallbackPhotoUrl} />
       <div>
-        <h2 className="text-xl font-semibold mb-4">Visit history</h2>
+        <h2 className="text-xl font-semibold mb-4">{t("visitHistory")}</h2>
         <VisitGallery visits={visits} />
       </div>
     </div>
   );
 }
 
-export default function RestaurantPage({ params }: Props) {
+export default async function RestaurantPage({ params }: Props) {
+  const t = await getTranslations("restaurantDetail");
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="w-full flex justify-between items-center px-4 h-14 border-b border-border">
         <Link href="/" className="font-bold text-lg">
-          Numazu Tabemono
+          {t("appName")}
         </Link>
         <Link
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground"
         >
-          ← Leaderboard
+          {t("backToLeaderboard")}
         </Link>
       </nav>
 
@@ -72,7 +75,7 @@ export default function RestaurantPage({ params }: Props) {
         <Suspense
           fallback={
             <p className="text-muted-foreground text-center py-12">
-              Loading...
+              {t("loading")}
             </p>
           }
         >

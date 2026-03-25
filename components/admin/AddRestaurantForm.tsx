@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { PlacesAutocomplete } from "./PlacesAutocomplete";
 import { createRestaurant } from "@/actions/restaurants";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ function extractName(displayName: string): string {
 
 export function AddRestaurantForm() {
   const router = useRouter();
+  const t = useTranslations("addRestaurant");
   const [place, setPlace] = useState<SelectedPlace | null>(null);
   const [manualName, setManualName] = useState("");
   const [locating, setLocating] = useState(false);
@@ -50,7 +52,7 @@ export function AddRestaurantForm() {
 
   function handleUseMyLocation() {
     if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported by your browser.");
+      setLocationError(t("geolocationUnsupported"));
       return;
     }
     setLocating(true);
@@ -75,8 +77,8 @@ export function AddRestaurantForm() {
       (err) => {
         setLocationError(
           err.code === 1
-            ? "Location access denied. Please allow location in your browser."
-            : "Could not get your location. Try again."
+            ? t("locationDenied")
+            : t("locationFailed")
         );
         setLocating(false);
       },
@@ -87,13 +89,13 @@ export function AddRestaurantForm() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!place) {
-      setError("Please search for a restaurant or use your location.");
+      setError(t("searchFirst"));
       return;
     }
 
     const finalName = isGpsPlace ? manualName.trim() : place.name;
     if (!finalName) {
-      setError("Please enter the restaurant name.");
+      setError(t("enterName"));
       return;
     }
 
@@ -113,7 +115,7 @@ export function AddRestaurantForm() {
         setManualName("");
         router.refresh();
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to add restaurant");
+        setError(err instanceof Error ? err.message : t("failedToAdd"));
       }
     });
   }
@@ -129,7 +131,7 @@ export function AddRestaurantForm() {
 
       <div className="flex items-center gap-3">
         <div className="flex-1 border-t border-border" />
-        <span className="text-xs text-muted-foreground">or</span>
+        <span className="text-xs text-muted-foreground">{t("or")}</span>
         <div className="flex-1 border-t border-border" />
       </div>
 
@@ -140,7 +142,7 @@ export function AddRestaurantForm() {
         disabled={locating}
         className="w-full"
       >
-        {locating ? "Getting location..." : "📍 Use my current location"}
+        {locating ? t("gettingLocation") : t("useMyLocation")}
       </Button>
 
       {locationError && (
@@ -155,12 +157,12 @@ export function AddRestaurantForm() {
           </p>
 
           <div className="grid gap-1.5">
-            <Label htmlFor="manual-name">Restaurant name</Label>
+            <Label htmlFor="manual-name">{t("restaurantName")}</Label>
             <Input
               id="manual-name"
               value={manualName}
               onChange={(e) => setManualName(e.target.value)}
-              placeholder="e.g. Ramen Hyaku-shiki"
+              placeholder={t("restaurantNamePlaceholder")}
               autoFocus
             />
           </div>
@@ -172,7 +174,7 @@ export function AddRestaurantForm() {
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-blue-500 hover:underline"
             >
-              Also add to OpenStreetMap ↗
+              {t("addToOSM")}
             </a>
           )}
         </div>
@@ -184,38 +186,38 @@ export function AddRestaurantForm() {
       <input type="hidden" name="lng"      value={place?.lng ?? ""} />
 
       <div className="grid gap-1.5">
-        <Label htmlFor="seat_count">Seat count</Label>
+        <Label htmlFor="seat_count">{t("seatCount")}</Label>
         <Input
           id="seat_count"
           name="seat_count"
           type="number"
           min={1}
-          placeholder="e.g. 12"
+          placeholder={t("seatCountPlaceholder")}
         />
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="cuisine_category">Category</Label>
+        <Label htmlFor="cuisine_category">{t("category")}</Label>
         <select
           id="cuisine_category"
           name="cuisine_category"
           defaultValue="other"
           className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
-          <option value="other">Other</option>
-          <option value="ramen">Ramen</option>
-          <option value="tonkatsu">Tonkatsu</option>
-          <option value="sushi">Sushi</option>
+          <option value="other">{t("categoryOther")}</option>
+          <option value="ramen">{t("categoryRamen")}</option>
+          <option value="tonkatsu">{t("categoryTonkatsu")}</option>
+          <option value="sushi">{t("categorySushi")}</option>
         </select>
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
       {success && (
-        <p className="text-sm text-green-600">Restaurant added successfully!</p>
+        <p className="text-sm text-green-600">{t("success")}</p>
       )}
 
       <Button type="submit" disabled={isPending || !place}>
-        {isPending ? "Adding..." : "Add restaurant"}
+        {isPending ? t("adding") : t("addRestaurant")}
       </Button>
     </form>
   );
