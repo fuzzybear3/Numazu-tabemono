@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const CUISINE_CHIPS: Record<'ramen' | 'tonkatsu', string[]> = {
-  ramen:    ["Shoyu Ramen", "Miso Ramen", "Shio Ramen", "Tonkotsu Ramen", "Tantanmen", "Tsukemen"],
+  ramen:    ["Shoyu Ramen", "Miso Ramen", "Shio Ramen", "Tonkotsu Ramen", "Tantanmen", "Tsukemen", "__other__"],
   tonkatsu: ["Tonkatsu"],
 };
 
@@ -24,19 +24,21 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
   const t = useTranslations("addVisit");
 
   const chipLabels: Record<string, string> = {
-    "Shoyu Ramen":   t("chipShoyuRamen"),
-    "Miso Ramen":    t("chipMisoRamen"),
-    "Shio Ramen":    t("chipShioRamen"),
+    "Shoyu Ramen":    t("chipShoyuRamen"),
+    "Miso Ramen":     t("chipMisoRamen"),
+    "Shio Ramen":     t("chipShioRamen"),
     "Tonkotsu Ramen": t("chipTonkotsuRamen"),
-    "Tantanmen":     t("chipTantanmen"),
-    "Tsukemen":      t("chipTsukemen"),
-    "Tonkatsu":      t("chipTonkatsu"),
+    "Tantanmen":      t("chipTantanmen"),
+    "Tsukemen":       t("chipTsukemen"),
+    "Tonkatsu":       t("chipTonkatsu"),
+    "__other__":      t("chipOther"),
   };
   const [isPending, startTransition] = useTransition();
   const [error, setError]           = useState<string | null>(null);
   const [success, setSuccess]       = useState(false);
   const [uploading, setUploading]   = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [otherText, setOtherText]   = useState("");
 
   const chips = (cuisineCategory === 'ramen' || cuisineCategory === 'tonkatsu') ? CUISINE_CHIPS[cuisineCategory] : null;
 
@@ -54,6 +56,10 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
       setError(t("selectRamenType"));
       return;
     }
+    if (selectedItem === "__other__" && !otherText.trim()) {
+      setError(t("selectRamenTypeOrFill"));
+      return;
+    }
 
     startTransition(async () => {
       try {
@@ -68,6 +74,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
         await createVisit(formData);
         setSuccess(true);
         setSelectedItem(null);
+        setOtherText("");
         form.reset();
         router.refresh();
       } catch (err) {
@@ -93,6 +100,7 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
       <div className="grid gap-1.5">
         <Label>{t("menuItemRequired")} {chips ? <span className="text-destructive">*</span> : t("menuItemOptional")}</Label>
         {chips ? (
+          <>
           <div className="flex flex-wrap gap-2">
             {chips.map((chip) => (
               <button
@@ -108,8 +116,22 @@ export function AddVisitForm({ restaurantId, cuisineCategory = "other" }: Props)
                 {chipLabels[chip] ?? chip}
               </button>
             ))}
-            <input type="hidden" name="menu_item" value={selectedItem ?? ""} />
+            <input
+              type="hidden"
+              name="menu_item"
+              value={selectedItem === "__other__" ? otherText : (selectedItem ?? "")}
+            />
           </div>
+          {selectedItem === "__other__" && (
+            <Input
+              autoFocus
+              value={otherText}
+              onChange={(e) => setOtherText(e.target.value)}
+              placeholder={t("otherMenuItemPlaceholder")}
+              className="mt-2"
+            />
+          )}
+          </>
         ) : (
           <Input
             id="menu_item"
