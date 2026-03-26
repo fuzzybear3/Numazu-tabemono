@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { LeaderboardList } from "@/components/leaderboard/LeaderboardList";
 import { BottomNav } from "@/components/BottomNav";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
+import { MobileMenuDrawer } from "@/components/MobileMenuDrawer";
 
 export default async function Home({
   searchParams,
@@ -21,9 +22,7 @@ export default async function Home({
       {/* Mobile TopAppBar — hidden on desktop */}
       <header className="lg:hidden bg-[#131313] top-0 sticky z-50">
         <div className="flex justify-between items-center px-6 py-4 w-full">
-          <span className="material-symbols-outlined text-[#ffbf00] cursor-pointer select-none">
-            menu
-          </span>
+          <MobileMenuDrawer />
           <h1 className="font-headline italic tracking-wide text-2xl text-[#ffbf00] drop-shadow-[0_0_8px_rgba(255,191,0,0.4)]">
             Tabemono 食べ物
           </h1>
@@ -57,15 +56,6 @@ export default async function Home({
             <LeaderboardList searchParams={searchParams} />
           </Suspense>
         </div>
-      </div>
-
-      {/* FAB — mobile only */}
-      <div className="lg:hidden fixed bottom-24 right-6 z-40">
-        <Link href="/ranker">
-          <button className="w-14 h-14 rounded-full bg-[#ffbf00] text-[#402d00] shadow-[0_8px_25px_rgba(255,191,0,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300">
-            <span className="material-symbols-outlined text-3xl select-none">add</span>
-          </button>
-        </Link>
       </div>
 
       <BottomNav activeTab="rankings" />
