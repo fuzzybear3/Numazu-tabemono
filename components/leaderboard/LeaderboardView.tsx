@@ -13,7 +13,7 @@ export type RankedRestaurantWithVotes = RankedRestaurant & {
   visit_note?: string | null;
 };
 
-type Filter = "all" | "ramen" | "sushi" | "other";
+type Filter = "all" | "ramen" | "tonkatsu" | "sushi" | "other";
 export type View = "cards" | "list";
 
 interface Props {
@@ -357,10 +357,11 @@ export function LeaderboardView({ restaurants, initialView = "list" }: Props) {
       {/* Controls row */}
       <div className="flex items-center gap-4 flex-wrap">
         <div className="flex items-center gap-2 p-1 bg-[#1c1b1b] rounded-xl">
-          {(["all", "ramen", "sushi", "other"] as Filter[]).map((f) => {
+          {(["all", "ramen", "tonkatsu", "sushi", "other"] as Filter[]).map((f) => {
             const filterLabel: Record<Filter, string> = {
               all: t("filterAll"),
               ramen: t("filterRamen"),
+              tonkatsu: t("filterTonkatsu"),
               sushi: t("filterSushi"),
               other: t("filterOther"),
             };
